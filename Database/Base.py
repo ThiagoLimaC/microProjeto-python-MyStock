@@ -6,7 +6,7 @@ class Base(IBase):
 
     # definindo o método que contém a string de conexão
     def _init_(self):
-        self.connection_string = myStockBd.sqlite
+        self.connection_string = "MyStockDb.sqlite"
 
     # definindo o método salvar para Adicionar, Editar ou Remover um item da tabela
     def salvar(self, acao : int):
