@@ -13,7 +13,12 @@ CREATE TABLE IF NOT EXISTS Produto (
 )
 '''
 
+insert_query = '''
+INSERT INTO Produto VALUES ('Borracha', 3.50, 'carai borracha mano')
+'''
+
 cursor.execute(create_table_query)
+cursor.execute(insert_query)
 
 connection.commit()
 
