@@ -9,14 +9,22 @@ from typing import List
 
 def main():
     # Cria uma nova instância de Produto
-    novo_produto = Produto(nome="Monitor", valor=150.00, descricao="Monitor LED LCD LG")
-    novo_produto.strConnect()
-    novo_produto.salvar(1)  # Salva o produto no banco de dados
-    print("Produto salvo com sucesso")
+    p = Produto('','','')
+    p.strConnect()
+    pBusca = Produto.busca(p, id_busca= 3)
+    for prod in pBusca:
+        prod.strConnect()
+        prod.nome = "Caneta"
+        prod.salvar(2)
+
+    
+    # novo_produto.strConnect()
+    # novo_produto.salvar(1)  # Salva o produto no banco de dados
+    # print("Produto salvo com sucesso")
     
 
     # Lista todos os produtos
-    lista_produtos = novo_produto.todos()
+    lista_produtos = p.todos()
     for p in lista_produtos:
         print(f"Id: {p.id}")
         print(f"Nome: {p.nome}")

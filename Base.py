@@ -29,7 +29,8 @@ class Base(IBase):
             if acao == 1:
                 query = f"INSERT INTO {self.__class__.__name__} ({','.join(colunas)}) VALUES ({','.join(valores)})"
             elif acao == 2:
-                query = f"UPDATE {self.__class__._name_} SET {','.join(valores)} WHERE id={self.id}"
+                col_val_str = ', '.join([f"{coluna}={valor}" for coluna, valor in zip(colunas, valores)]) 
+                query = f"UPDATE {self.__class__.__name__} SET {col_val_str} WHERE id={self.id}"
             elif acao == 3:
                 query = f"DELETE FROM {self.__class__._name_} WHERE id={self.id}"
             
@@ -59,12 +60,16 @@ class Base(IBase):
         lista = []
         with sqlite3.connect(self.connection_string) as connection:
             cursor = connection.cursor()
-            query = f"SELECT * FROM {self.__class__._name_} WHERE id = {self.id}"
-            cursor.execute(query, (id_busca,))
+            query = f"SELECT * FROM {self.__class__.__name__} WHERE id = {id_busca}"
+            cursor.execute(query)
             rows = cursor.fetchall()
+
+            colunas = [description[0] for description in cursor.description]
+
             for row in rows:
+                data = dict(zip(colunas, row))
                 obj = self.__class__.__new__(self.__class__)
-                obj.__dict__.update(row)
+                obj.__dict__.update(data)
                 lista.append(obj)
             return lista
 
