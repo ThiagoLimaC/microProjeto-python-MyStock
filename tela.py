@@ -59,6 +59,16 @@ class Funcs():
         self.select_lista()
         self.limpa_tela()
 
+    def altera_item(self):
+        self.variaveis()
+        
+        novo_item = Produto(self.codigo, self.nome, self.valor, self.descricao)
+        novo_item.strConnect()
+        novo_item.salvar(2)
+
+        self.select_lista()
+        self.limpa_tela()
+
 class Aplication(Funcs):
     def __init__(self):
         self.root = root
@@ -100,7 +110,7 @@ class Aplication(Funcs):
         self.bt_novo.place(relx= 0.6, rely= 0.1, relwidth=0.1, relheight= 0.15)
         ### Criação do botão alterar
         self.bt_alterar = Button(self.frame_1, text="Alterar", bd=3, bg= '#4682B4', fg= 'white', 
-                                font= ('verdana', 8, 'bold'))
+                                font= ('verdana', 8, 'bold'), command= self.altera_item)
         self.bt_alterar.place(relx= 0.7, rely= 0.1, relwidth=0.1, relheight= 0.15)
         ### Criação do botão apagar
         self.bt_apagar = Button(self.frame_1, text="Apagar", bd=3, bg= '#4682B4', fg= 'white', 
