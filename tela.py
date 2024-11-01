@@ -11,11 +11,15 @@ class Funcs():
         self.valor_entry.delete(0, END)
         self.descricao_entry.delete(0, END)
     
-    def add_item(self):
+    def variaveis(self):
         self.codigo = self.codigo_entry.get()
         self.nome = self.nome_entry.get()
         self.valor = self.valor_entry.get()
         self.descricao = self.descricao_entry.get()
+    
+    def add_item(self):
+        
+        self.variaveis()
 
         novo_item = Produto(self.codigo, self.nome, self.valor, self.descricao)
         novo_item.strConnect()
@@ -32,6 +36,28 @@ class Funcs():
 
         for item in lista:
             self.listaProd.insert("", END, values=(item.id, item.codigo, item.nome, item.valor, item.descricao))
+    
+    def OnDoubleClick(self, event):
+        self.limpa_tela()
+        self.listaProd.selection()
+
+        for n in self.listaProd.selection():
+            col1, col2, col3, col4, col5 = self.listaProd.item(n, 'values')
+            self.codigo_entry.insert(END, col2)
+            self.nome_entry.insert(END, col3)
+            self.valor_entry.insert(END, col4)
+            self.descricao_entry.insert(END, col5)
+        
+    def deleta_item(self):
+        
+        self.variaveis()
+
+        novo_item = Produto(self.codigo, self.nome, self.valor, self.descricao)
+        novo_item.strConnect()
+        novo_item.salvar(3)
+
+        self.select_lista()
+        self.limpa_tela()
 
 class Aplication(Funcs):
     def __init__(self):
@@ -78,7 +104,7 @@ class Aplication(Funcs):
         self.bt_alterar.place(relx= 0.7, rely= 0.1, relwidth=0.1, relheight= 0.15)
         ### Criação do botão apagar
         self.bt_apagar = Button(self.frame_1, text="Apagar", bd=3, bg= '#4682B4', fg= 'white', 
-                                font= ('verdana', 8, 'bold'))
+                                font= ('verdana', 8, 'bold'), command= self.deleta_item)
         self.bt_apagar.place(relx= 0.8, rely= 0.1, relwidth=0.1, relheight= 0.15)
 
         ### Criação da label e entrada do codigo
@@ -129,4 +155,6 @@ class Aplication(Funcs):
         self.scroolLista = Scrollbar(self.frame_2, orient='vertical')
         self.listaProd.configure(yscroll=self.scroolLista.set)
         self.scroolLista.place(relx=0.96, rely=0.1, relwidth=0.04, relheight=0.85)
+
+        self.listaProd.bind("<Double-1>", self.OnDoubleClick)
 Aplication()

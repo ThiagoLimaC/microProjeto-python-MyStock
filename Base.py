@@ -30,9 +30,9 @@ class Base(IBase):
                 query = f"INSERT INTO {self.__class__.__name__} ({','.join(colunas)}) VALUES ({','.join(valores)})"
             elif acao == 2:
                 col_val_str = ', '.join([f"{coluna}={valor}" for coluna, valor in zip(colunas, valores)]) 
-                query = f"UPDATE {self.__class__.__name__} SET {col_val_str} WHERE id={self.id}"
+                query = f"UPDATE {self.__class__.__name__} SET {col_val_str} WHERE codigo={self.codigo}"
             elif acao == 3:
-                query = f"DELETE FROM {self.__class__._name_} WHERE id={self.id}"
+                query = f"DELETE FROM {self.__class__.__name__} WHERE codigo={self.codigo}"
             
             cursor.execute(query)
             connection.commit()
