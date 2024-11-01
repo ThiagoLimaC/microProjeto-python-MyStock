@@ -77,7 +77,6 @@ class Aplication():
 
         self.descricao_entry = Entry(self.frame_1)
         self.descricao_entry.place(relx= 0.5, rely= 0.45, relwidth= 0.4, relheight= 0.35)
-
     def lista_frame2(self):
         self.listaProd = ttk.Treeview(self.frame_2, height= 3, columns= ("col1", "col2", "col3", "col4", "col5"))
         self.listaProd.heading('#0', text="")
