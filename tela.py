@@ -112,12 +112,17 @@ class Aplication(Funcs):
                                         highlightbackground="#708090", highlightthickness=2)
         self.frame_2.place(relx= 0.02,rely= 0.5, relwidth= 0.96, relheight= 0.46)
     def widgets_frame1(self):
+        self.canvas_bt = Canvas(self.frame_1, bd= 0, bg='#1e3743', highlightbackground= 'gray', highlightthickness= 4)
+        self.canvas_bt.place(relx= 0.19, rely= 0.08, relwidth= 0.22, relheight= 0.19)
+        
         ### Criação do botão limpar
-        self.bt_limpar = Button(self.frame_1, text="Limpar", bd=3, bg= '#4682B4', fg= 'white', 
+        self.bt_limpar = Button(self.frame_1, text="Limpar", bd=3, bg= '#4682B4', fg= 'white',
+                                activebackground='#108ecb', activeforeground="white",
                                 font= ('verdana', 8, 'bold'), command= self.limpa_tela)
         self.bt_limpar.place(relx= 0.2, rely= 0.1, relwidth=0.1, relheight= 0.15)
         ### Criação do botão buscar
-        self.bt_buscar = Button(self.frame_1, text="Buscar", bd=3, bg= '#4682B4', fg= 'white', 
+        self.bt_buscar = Button(self.frame_1, text="Buscar", bd=3, bg= '#4682B4', fg= 'white',
+                                activebackground='#108ecb', activeforeground="white", 
                                 font= ('verdana', 8, 'bold'), command= self.busca_item)
         self.bt_buscar.place(relx= 0.3, rely= 0.1, relwidth=0.1, relheight= 0.15)
         ### Criação do botão novo
