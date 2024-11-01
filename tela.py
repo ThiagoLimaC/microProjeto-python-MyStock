@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from Produto import Produto
 
 root = Tk()
 
@@ -9,6 +10,28 @@ class Funcs():
         self.nome_entry.delete(0, END)
         self.valor_entry.delete(0, END)
         self.descricao_entry.delete(0, END)
+    
+    def add_item(self):
+        self.codigo = self.codigo_entry.get()
+        self.nome = self.nome_entry.get()
+        self.valor = self.valor_entry.get()
+        self.descricao = self.descricao_entry.get()
+
+        novo_item = Produto(self.codigo, self.nome, self.valor, self.descricao)
+        novo_item.strConnect()
+        novo_item.salvar(1)
+
+        self.select_lista()
+        self.limpa_tela()
+    
+    def select_lista(self):
+        self.listaProd.delete(*self.listaProd.get_children())
+        p = Produto('','','','')
+        p.strConnect()
+        lista = p.todos()
+
+        for item in lista:
+            self.listaProd.insert("", END, values=(item.id, item.codigo, item.nome, item.valor, item.descricao))
 
 class Aplication(Funcs):
     def __init__(self):
@@ -17,6 +40,7 @@ class Aplication(Funcs):
         self.frames_da_tela()
         self.widgets_frame1()
         self.lista_frame2()
+        self.select_lista()
         root.mainloop()
     def tela(self):
         self.root.title("Cadastro de Produtos")
@@ -46,7 +70,7 @@ class Aplication(Funcs):
         self.bt_buscar.place(relx= 0.3, rely= 0.1, relwidth=0.1, relheight= 0.15)
         ### Criação do botão novo
         self.bt_novo = Button(self.frame_1, text="Novo", bd=3, bg= '#4682B4', fg= 'white', 
-                                font= ('verdana', 8, 'bold'))
+                                font= ('verdana', 8, 'bold'), command= self.add_item)
         self.bt_novo.place(relx= 0.6, rely= 0.1, relwidth=0.1, relheight= 0.15)
         ### Criação do botão alterar
         self.bt_alterar = Button(self.frame_1, text="Alterar", bd=3, bg= '#4682B4', fg= 'white', 
