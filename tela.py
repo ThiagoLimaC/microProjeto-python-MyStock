@@ -68,6 +68,21 @@ class Funcs():
 
         self.select_lista()
         self.limpa_tela()
+    
+    def busca_item(self):
+        self.listaProd.delete(*self.listaProd.get_children())
+
+        self.nome_entry.insert(END, '%')
+        nome = self.nome_entry.get()
+
+        p = Produto('', '', '', '')
+        p.strConnect()
+        lista = p.busca(nome)
+
+        for item in lista:
+            self.listaProd.insert("", END, values=(item.id, item.codigo, item.nome, item.valor, item.descricao))
+
+        self.limpa_tela()
 
 class Aplication(Funcs):
     def __init__(self):
@@ -103,7 +118,7 @@ class Aplication(Funcs):
         self.bt_limpar.place(relx= 0.2, rely= 0.1, relwidth=0.1, relheight= 0.15)
         ### Criação do botão buscar
         self.bt_buscar = Button(self.frame_1, text="Buscar", bd=3, bg= '#4682B4', fg= 'white', 
-                                font= ('verdana', 8, 'bold'))
+                                font= ('verdana', 8, 'bold'), command= self.busca_item)
         self.bt_buscar.place(relx= 0.3, rely= 0.1, relwidth=0.1, relheight= 0.15)
         ### Criação do botão novo
         self.bt_novo = Button(self.frame_1, text="Novo", bd=3, bg= '#4682B4', fg= 'white', 
@@ -168,7 +183,6 @@ class Aplication(Funcs):
         self.scroolLista.place(relx=0.96, rely=0.1, relwidth=0.04, relheight=0.85)
 
         self.listaProd.bind("<Double-1>", self.OnDoubleClick)
-
     def Menus(self):
         menubar = Menu(self.root)
         self.root.config(menu=menubar)
@@ -180,11 +194,7 @@ class Aplication(Funcs):
         menubar.add_cascade(label= "Opções", menu = filemenu)
         menubar.add_cascade(label= "Sobre", menu = filemenu2)
 
+        filemenu.add_command(label= "Limpar Produto", command= self.limpa_tela)
         filemenu.add_command(label="Sair", command= Quit)
-        filemenu2.add_command(label= "Limpar Produto", command= self.limpa_tela)
-
-
-
-
-    
+        
 Aplication()

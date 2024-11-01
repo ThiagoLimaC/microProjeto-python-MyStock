@@ -56,11 +56,11 @@ class Base(IBase):
                 lista.append(obj)
             return lista
         
-    def busca(self, id_busca: int) -> List[IBase]:
+    def busca(self, nome: str) -> List[IBase]:
         lista = []
         with sqlite3.connect(self.connection_string) as connection:
             cursor = connection.cursor()
-            query = f"SELECT * FROM {self.__class__.__name__} WHERE id = {id_busca}"
+            query = f"SELECT * FROM {self.__class__.__name__} WHERE nome LIKE '%{nome}' ORDER BY nome ASC"
             cursor.execute(query)
             rows = cursor.fetchall()
 
