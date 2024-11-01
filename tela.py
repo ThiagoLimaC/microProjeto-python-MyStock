@@ -77,6 +77,7 @@ class Aplication(Funcs):
         self.widgets_frame1()
         self.lista_frame2()
         self.select_lista()
+        self.Menus()
         root.mainloop()
     def tela(self):
         self.root.title("Cadastro de Produtos")
@@ -167,4 +168,23 @@ class Aplication(Funcs):
         self.scroolLista.place(relx=0.96, rely=0.1, relwidth=0.04, relheight=0.85)
 
         self.listaProd.bind("<Double-1>", self.OnDoubleClick)
+
+    def Menus(self):
+        menubar = Menu(self.root)
+        self.root.config(menu=menubar)
+        filemenu = Menu(menubar)
+        filemenu2 = Menu(menubar)
+
+        def Quit(): self.root.destroy()
+
+        menubar.add_cascade(label= "Opções", menu = filemenu)
+        menubar.add_cascade(label= "Sobre", menu = filemenu2)
+
+        filemenu.add_command(label="Sair", command= Quit)
+        filemenu2.add_command(label= "Limpar Produto", command= self.limpa_tela)
+
+
+
+
+    
 Aplication()
