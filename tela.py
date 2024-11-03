@@ -68,7 +68,7 @@ class Funcs():
         lista = p.todos()
 
         for item in lista:
-            self.listaProd.insert("", END, values=(item.id, item.codigo, item.nome, item.valor, item.descricao))
+            self.listaProd.insert("", END, values=(item.id, item.codigo, item.nome, f"R${item.valor:.2f}", item.descricao))
     
     def OnDoubleClick(self, event):
         self.limpa_tela()
@@ -138,12 +138,8 @@ class Aplication(Funcs):
         self.frame_1 = Frame(self.root, bd=4, 
                                         bg="whitesmoke", 
                                         highlightbackground="#708090", highlightthickness=2)
-        self.frame_1.place(relx= 0.02,rely= 0.02, relwidth= 0.96, relheight= 0.46)
-        
-        self.frame_2 = Frame(self.root, bd=4, 
-                                        bg="whitesmoke", 
-                                        highlightbackground="#708090", highlightthickness=2)
-        self.frame_2.place(relx= 0.02,rely= 0.5, relwidth= 0.96, relheight= 0.46)
+        self.frame_1.place(relx= 0.02,rely= 0.02, relwidth= 0.96, relheight= 0.92)
+
     def widgets_frame1(self):
 
         self.abas = ttk.Notebook(self.frame_1)
@@ -159,34 +155,34 @@ class Aplication(Funcs):
         self.abas.place(relx= 0, rely= 0, relwidth= 0.98, relheight= 0.98)
 
         self.canvas_bt = Canvas(self.aba1, bd= 0, bg='#1e3743', highlightbackground= 'gray', highlightthickness= 4)
-        self.canvas_bt.place(relx= 0.19, rely= 0.08, relwidth= 0.22, relheight= 0.19)
+        self.canvas_bt.place(relx= 0.19, rely= 0.08, relwidth= 0.22, relheight= 0.11)
         
         ### Criação do botão limpar
         self.bt_limpar = Button(self.aba1, text="Limpar", bd=3, bg= '#4682B4', fg= 'white',
                                 activebackground='#108ecb', activeforeground="white",
                                 font= ('verdana', 8, 'bold'), command= self.limpa_tela)
-        self.bt_limpar.place(relx= 0.2, rely= 0.1, relwidth=0.1, relheight= 0.15)
+        self.bt_limpar.place(relx= 0.2, rely= 0.1, relwidth=0.1, relheight= 0.07)
 
         ### Criação do botão buscar
         self.bt_buscar = Button(self.aba1, text="Buscar", bd=3, bg= '#4682B4', fg= 'white',
                                 activebackground='#108ecb', activeforeground="white", 
                                 font= ('verdana', 8, 'bold'), command= self.busca_item)
-        self.bt_buscar.place(relx= 0.3, rely= 0.1, relwidth=0.1, relheight= 0.15)
+        self.bt_buscar.place(relx= 0.3, rely= 0.1, relwidth=0.1, relheight= 0.07)
 
         self.balao_buscar = tix.Balloon(self.aba1)
         self.balao_buscar.bind_widget(self.bt_buscar, balloonmsg= "Digite no campo nome o produto que deseja pesquisar")
 
         self.canvas_bt = Canvas(self.aba1, bd= 0, bg='#1e3743', highlightbackground= 'gray', highlightthickness= 4)
-        self.canvas_bt.place(relx= 0.59, rely= 0.08, relwidth= 0.32, relheight= 0.19)
+        self.canvas_bt.place(relx= 0.59, rely= 0.08, relwidth= 0.32, relheight= 0.11)
 
         ### Criação do botão novo
         self.bt_novo = Button(self.aba1, text="Novo", bd=3, bg= '#4682B4', fg= 'white', 
                                 font= ('verdana', 8, 'bold'), command= self.add_item)
-        self.bt_novo.place(relx= 0.6, rely= 0.1, relwidth=0.1, relheight= 0.15)
+        self.bt_novo.place(relx= 0.6, rely= 0.1, relwidth=0.1, relheight= 0.07)
         ### Criação do botão alterar
         self.bt_alterar = Button(self.aba1, text="Alterar", bd=3, bg= '#4682B4', fg= 'white', 
                                 font= ('verdana', 8, 'bold'), command= self.altera_item)
-        self.bt_alterar.place(relx= 0.7, rely= 0.1, relwidth=0.1, relheight= 0.15)
+        self.bt_alterar.place(relx= 0.7, rely= 0.1, relwidth=0.1, relheight= 0.07)
 
         self.bt_alterar = tix.Balloon(self.aba1)
         self.bt_alterar.bind_widget(self.bt_alterar, balloonmsg= "Dê dois cliques no item da lista para trazer as informações do produto")
@@ -194,58 +190,63 @@ class Aplication(Funcs):
         ### Criação do botão apagar
         self.bt_apagar = Button(self.aba1, text="Apagar", bd=3, bg= '#4682B4', fg= 'white', 
                                 font= ('verdana', 8, 'bold'), command= self.deleta_item)
-        self.bt_apagar.place(relx= 0.8, rely= 0.1, relwidth=0.1, relheight= 0.15)
+        self.bt_apagar.place(relx= 0.8, rely= 0.1, relwidth=0.1, relheight= 0.07)
 
         ### Criação da label e entrada do codigo
         self.lb_codigo = Label(self.aba1, text= "Código", bg= None, fg= '#107db2')
         self.lb_codigo.place(relx= 0.05, rely= 0.05)
 
         self.codigo_entry = Entry(self.aba1)
-        self.codigo_entry.place(relx= 0.05, rely= 0.15, relwidth= 0.08)
+        self.codigo_entry.place(relx= 0.05, rely= 0.11, relwidth= 0.10)
 
         ### Criação da label e entrada do nome
         self.lb_nome = Label(self.aba1, text= "Nome", bg= 'whitesmoke', fg= '#107db2')
-        self.lb_nome.place(relx= 0.05, rely= 0.35)
+        self.lb_nome.place(relx= 0.05, rely= 0.2)
 
         self.nome_entry = Entry(self.aba1)
-        self.nome_entry.place(relx= 0.05, rely= 0.45, relwidth= 0.35)
+        self.nome_entry.place(relx= 0.05, rely= 0.25, relwidth= 0.35)
 
         ### Criação da label e entrada do valor
         self.lb_valor = Label(self.aba1, text= "Valor", bg= 'whitesmoke', fg= '#107db2')
-        self.lb_valor.place(relx= 0.05, rely= 0.60)
+        self.lb_valor.place(relx= 0.05, rely= 0.35)
 
         self.valor_entry = Entry(self.aba1)
-        self.valor_entry.place(relx= 0.05, rely= 0.70, relwidth= 0.15)
+        self.valor_entry.place(relx= 0.05, rely= 0.4, relwidth= 0.15)
 
         ### Criação da label e entrada do descrição
         self.lb_descricao = Label(self.aba1, text= "Descrição", bg= 'whitesmoke', fg= '#107db2')
-        self.lb_descricao.place(relx= 0.5, rely= 0.35)
+        self.lb_descricao.place(relx= 0.5, rely= 0.25)
 
         self.descricao_entry = Entry(self.aba1)
-        self.descricao_entry.place(relx= 0.5, rely= 0.45, relwidth= 0.4, relheight= 0.35)
+        self.descricao_entry.place(relx= 0.5, rely= 0.32, relwidth= 0.4, relheight= 0.15)
 
 
     def lista_frame2(self):
-        self.listaProd = ttk.Treeview(self.frame_2, height= 3, columns= ("col1", "col2", "col3", "col4", "col5"))
+        self.style = ttk.Style() 
+        
+        self.style.configure("Treeview.Heading", font=("Helvetica", 10, "bold"))
+
+        self.listaProd = ttk.Treeview(self.aba1, height= 3, columns= ("col1", "col2", "col3", "col4", "col5"), style="Treeview")
+
         self.listaProd.heading('#0', text="")
         self.listaProd.heading('#1', text="Id")
         self.listaProd.heading('#2', text="Codigo") 
         self.listaProd.heading('#3', text="Nome")
         self.listaProd.heading('#4', text="Valor")
-        self.listaProd.heading('#5', text="Descricao")
+        self.listaProd.heading('#5', text="Descrição")
 
-        self.listaProd.column("#0", width=0)
-        self.listaProd.column("#1", width=50)
-        self.listaProd.column("#2", width=50)
-        self.listaProd.column("#3", width=150)
-        self.listaProd.column("#4", width=100)
-        self.listaProd.column("#5", width=250)
+        self.listaProd.column("#0", width=0, anchor= "center")
+        self.listaProd.column("#1", width=50, anchor= "center")
+        self.listaProd.column("#2", width=55, anchor= "center")
+        self.listaProd.column("#3", width=150, anchor= "center")
+        self.listaProd.column("#4", width=100, anchor= "center")
+        self.listaProd.column("#5", width=250, anchor= "center")
 
-        self.listaProd.place(relx= 0.01, rely= 0.1, relwidth= 0.95, relheight= 0.85)
+        self.listaProd.place(relx= 0.01, rely= 0.5, relwidth= 0.95, relheight= 0.49)
 
-        self.scroolLista = Scrollbar(self.frame_2, orient='vertical')
+        self.scroolLista = Scrollbar(self.aba1, orient='vertical')
         self.listaProd.configure(yscroll=self.scroolLista.set)
-        self.scroolLista.place(relx=0.96, rely=0.1, relwidth=0.04, relheight=0.85)
+        self.scroolLista.place(relx=0.95, rely=0.5, relwidth=0.04, relheight=0.49)
 
         self.listaProd.bind("<Double-1>", self.OnDoubleClick)
     def Menus(self):
