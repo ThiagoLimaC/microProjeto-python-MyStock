@@ -1,8 +1,9 @@
 from tkinter import *
 from tkinter import ttk
+from tkinter import tix 
 from Produto import Produto
 
-root = Tk()
+root = tix.Tk()
 
 class Funcs():
     def limpa_tela(self):
@@ -120,11 +121,16 @@ class Aplication(Funcs):
                                 activebackground='#108ecb', activeforeground="white",
                                 font= ('verdana', 8, 'bold'), command= self.limpa_tela)
         self.bt_limpar.place(relx= 0.2, rely= 0.1, relwidth=0.1, relheight= 0.15)
+
         ### Criação do botão buscar
         self.bt_buscar = Button(self.frame_1, text="Buscar", bd=3, bg= '#4682B4', fg= 'white',
                                 activebackground='#108ecb', activeforeground="white", 
                                 font= ('verdana', 8, 'bold'), command= self.busca_item)
         self.bt_buscar.place(relx= 0.3, rely= 0.1, relwidth=0.1, relheight= 0.15)
+
+        self.balao_buscar = tix.Balloon(self.frame_1)
+        self.balao_buscar.bind_widget(self.bt_buscar, balloonmsg= "Digite no campo nome o produto que deseja pesquisar")
+
         ### Criação do botão novo
         self.bt_novo = Button(self.frame_1, text="Novo", bd=3, bg= '#4682B4', fg= 'white', 
                                 font= ('verdana', 8, 'bold'), command= self.add_item)
@@ -133,6 +139,10 @@ class Aplication(Funcs):
         self.bt_alterar = Button(self.frame_1, text="Alterar", bd=3, bg= '#4682B4', fg= 'white', 
                                 font= ('verdana', 8, 'bold'), command= self.altera_item)
         self.bt_alterar.place(relx= 0.7, rely= 0.1, relwidth=0.1, relheight= 0.15)
+
+        self.bt_alterar = tix.Balloon(self.frame_1)
+        self.bt_alterar.bind_widget(self.bt_alterar, balloonmsg= "Dê dois cliques no item da lista para trazer as informações do produto")
+
         ### Criação do botão apagar
         self.bt_apagar = Button(self.frame_1, text="Apagar", bd=3, bg= '#4682B4', fg= 'white', 
                                 font= ('verdana', 8, 'bold'), command= self.deleta_item)
