@@ -6,6 +6,32 @@ from Produto import Produto
 
 root = tix.Tk()
 
+class GradientFrame(Canvas):
+    def __init__(self, parent, color1= "white", color2= "gray", **kwargs):
+        Canvas.__init__(self, parent, **kwargs)
+        self._color1 = color1
+        self._color2 = color2
+        self.bind("<Configure>", self._draw_gradient)
+    def _draw_gradient(self, event= None):
+        self.delete("gradient")
+        width = self.winfo_width()
+        height = self.winfo_height()
+        limit = width
+        (r1, g1, b1) = self.winfo_rgb(self._color1)
+        (r2, g2, b2) = self.winfo_rgb(self._color2)
+        r_ratio = float(r2-r1) / limit
+        g_ratio = float(g2-g1) / limit
+        b_ratio = float(b2-b1) / limit
+
+        for i in range(limit):
+            nr = int(r1 + (r_ratio * i)) 
+            ng = int(g1 + (g_ratio * i))
+            nb = int(b1 + (b_ratio * i))
+            color = "#%4.4x%4.4x%4.4x" % (nr, ng, nb)
+            self.create_line(i, 0, i, height, tags=("gradient",), fill=color)
+        self.lower("gradient")
+
+
 class Funcs():
     def limpa_tela(self):
         self.codigo_entry.delete(0, END)
@@ -23,10 +49,10 @@ class Funcs():
         
         self.variaveis()
 
-        if(self.nome == ""):
+        if(self.nome == "") or (self.codigo == "") or (self.valor == ""):
             msg = "Para cadastrar um novo produto é necessário \n"
-            msg += "que seja digitado pelo menos um nome"
-            messagebox.showinfo("Cadastro de produtos - Aviso !!!")
+            msg += "que seja digitado pelo menos um codigo, nome e valor"
+            messagebox.showinfo("Cadastro de produtos - Aviso !!!", msg)
         else:
             novo_item = Produto(self.codigo, self.nome, self.valor, self.descricao)
             novo_item.strConnect()
@@ -121,7 +147,7 @@ class Aplication(Funcs):
     def widgets_frame1(self):
 
         self.abas = ttk.Notebook(self.frame_1)
-        self.aba1 = Frame(self.abas)
+        self.aba1 = GradientFrame(self.abas)
         self.aba2 = Frame(self.abas)
 
         self.aba1.configure(background= "whitesmoke")
@@ -168,7 +194,7 @@ class Aplication(Funcs):
         self.bt_apagar.place(relx= 0.8, rely= 0.1, relwidth=0.1, relheight= 0.15)
 
         ### Criação da label e entrada do codigo
-        self.lb_codigo = Label(self.aba1, text= "Código", bg= 'whitesmoke', fg= '#107db2')
+        self.lb_codigo = Label(self.aba1, text= "Código", bg= None, fg= '#107db2')
         self.lb_codigo.place(relx= 0.05, rely= 0.05)
 
         self.codigo_entry = Entry(self.aba1)
