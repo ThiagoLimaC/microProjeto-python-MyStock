@@ -193,28 +193,28 @@ class Aplication(Funcs):
         self.bt_apagar.place(relx= 0.8, rely= 0.1, relwidth=0.1, relheight= 0.07)
 
         ### Criação da label e entrada do codigo
-        self.lb_codigo = Label(self.aba1, text= "Código", bg= None, fg= '#107db2')
+        self.lb_codigo = Label(self.aba1, text= "Código", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
         self.lb_codigo.place(relx= 0.05, rely= 0.05)
 
         self.codigo_entry = Entry(self.aba1)
         self.codigo_entry.place(relx= 0.05, rely= 0.11, relwidth= 0.10)
 
         ### Criação da label e entrada do nome
-        self.lb_nome = Label(self.aba1, text= "Nome", bg= 'whitesmoke', fg= '#107db2')
+        self.lb_nome = Label(self.aba1, text= "Nome", bg= 'whitesmoke', fg= '#107db2', font=("Helvetica", 10, "bold"))
         self.lb_nome.place(relx= 0.05, rely= 0.2)
 
         self.nome_entry = Entry(self.aba1)
         self.nome_entry.place(relx= 0.05, rely= 0.25, relwidth= 0.35)
 
         ### Criação da label e entrada do valor
-        self.lb_valor = Label(self.aba1, text= "Valor", bg= 'whitesmoke', fg= '#107db2')
+        self.lb_valor = Label(self.aba1, text= "Valor", bg= 'whitesmoke', fg= '#107db2', font=("Helvetica", 10, "bold"))
         self.lb_valor.place(relx= 0.05, rely= 0.35)
 
         self.valor_entry = Entry(self.aba1)
         self.valor_entry.place(relx= 0.05, rely= 0.4, relwidth= 0.15)
 
         ### Criação da label e entrada do descrição
-        self.lb_descricao = Label(self.aba1, text= "Descrição", bg= 'whitesmoke', fg= '#107db2')
+        self.lb_descricao = Label(self.aba1, text= "Descrição", bg= 'whitesmoke', fg= '#107db2', font=("Helvetica", 10, "bold"))
         self.lb_descricao.place(relx= 0.5, rely= 0.25)
 
         self.descricao_entry = Entry(self.aba1)
@@ -246,7 +246,7 @@ class Aplication(Funcs):
 
         self.scroolLista = Scrollbar(self.aba1, orient='vertical')
         self.listaProd.configure(yscroll=self.scroolLista.set)
-        self.scroolLista.place(relx=0.95, rely=0.5, relwidth=0.04, relheight=0.49)
+        self.scroolLista.place(relx=0.95, rely=0.5, relwidth=0.045, relheight=0.49)
 
         self.listaProd.bind("<Double-1>", self.OnDoubleClick)
     def Menus(self):
