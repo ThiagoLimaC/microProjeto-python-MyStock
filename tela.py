@@ -153,7 +153,7 @@ class Aplication(Funcs):
         self.aba1.configure(background= "whitesmoke")
         self.aba2.configure(background= "whitesmoke")
 
-        self.abas.add(self.aba1, text= "Aba 1")
+        self.abas.add(self.aba1, text= "Produto")
         self.abas.add(self.aba2, text="Aba 2")
 
         self.abas.place(relx= 0, rely= 0, relwidth= 0.98, relheight= 0.98)
@@ -175,6 +175,9 @@ class Aplication(Funcs):
 
         self.balao_buscar = tix.Balloon(self.aba1)
         self.balao_buscar.bind_widget(self.bt_buscar, balloonmsg= "Digite no campo nome o produto que deseja pesquisar")
+
+        self.canvas_bt = Canvas(self.aba1, bd= 0, bg='#1e3743', highlightbackground= 'gray', highlightthickness= 4)
+        self.canvas_bt.place(relx= 0.59, rely= 0.08, relwidth= 0.32, relheight= 0.19)
 
         ### Criação do botão novo
         self.bt_novo = Button(self.aba1, text="Novo", bd=3, bg= '#4682B4', fg= 'white', 
