@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import tix 
+from tkinter import messagebox
 from Produto import Produto
 
 root = tix.Tk()
@@ -22,12 +23,17 @@ class Funcs():
         
         self.variaveis()
 
-        novo_item = Produto(self.codigo, self.nome, self.valor, self.descricao)
-        novo_item.strConnect()
-        novo_item.salvar(1)
+        if(self.nome == ""):
+            msg = "Para cadastrar um novo produto é necessário \n"
+            msg += "que seja digitado pelo menos um nome"
+            messagebox.showinfo("Cadastro de produtos - Aviso !!!")
+        else:
+            novo_item = Produto(self.codigo, self.nome, self.valor, self.descricao)
+            novo_item.strConnect()
+            novo_item.salvar(1)
 
-        self.select_lista()
-        self.limpa_tela()
+            self.select_lista()
+            self.limpa_tela()
     
     def select_lista(self):
         self.listaProd.delete(*self.listaProd.get_children())
@@ -113,68 +119,83 @@ class Aplication(Funcs):
                                         highlightbackground="#708090", highlightthickness=2)
         self.frame_2.place(relx= 0.02,rely= 0.5, relwidth= 0.96, relheight= 0.46)
     def widgets_frame1(self):
-        self.canvas_bt = Canvas(self.frame_1, bd= 0, bg='#1e3743', highlightbackground= 'gray', highlightthickness= 4)
+
+        self.abas = ttk.Notebook(self.frame_1)
+        self.aba1 = Frame(self.abas)
+        self.aba2 = Frame(self.abas)
+
+        self.aba1.configure(background= "whitesmoke")
+        self.aba2.configure(background= "whitesmoke")
+
+        self.abas.add(self.aba1, text= "Aba 1")
+        self.abas.add(self.aba2, text="Aba 2")
+
+        self.abas.place(relx= 0, rely= 0, relwidth= 0.98, relheight= 0.98)
+
+        self.canvas_bt = Canvas(self.aba1, bd= 0, bg='#1e3743', highlightbackground= 'gray', highlightthickness= 4)
         self.canvas_bt.place(relx= 0.19, rely= 0.08, relwidth= 0.22, relheight= 0.19)
         
         ### Criação do botão limpar
-        self.bt_limpar = Button(self.frame_1, text="Limpar", bd=3, bg= '#4682B4', fg= 'white',
+        self.bt_limpar = Button(self.aba1, text="Limpar", bd=3, bg= '#4682B4', fg= 'white',
                                 activebackground='#108ecb', activeforeground="white",
                                 font= ('verdana', 8, 'bold'), command= self.limpa_tela)
         self.bt_limpar.place(relx= 0.2, rely= 0.1, relwidth=0.1, relheight= 0.15)
 
         ### Criação do botão buscar
-        self.bt_buscar = Button(self.frame_1, text="Buscar", bd=3, bg= '#4682B4', fg= 'white',
+        self.bt_buscar = Button(self.aba1, text="Buscar", bd=3, bg= '#4682B4', fg= 'white',
                                 activebackground='#108ecb', activeforeground="white", 
                                 font= ('verdana', 8, 'bold'), command= self.busca_item)
         self.bt_buscar.place(relx= 0.3, rely= 0.1, relwidth=0.1, relheight= 0.15)
 
-        self.balao_buscar = tix.Balloon(self.frame_1)
+        self.balao_buscar = tix.Balloon(self.aba1)
         self.balao_buscar.bind_widget(self.bt_buscar, balloonmsg= "Digite no campo nome o produto que deseja pesquisar")
 
         ### Criação do botão novo
-        self.bt_novo = Button(self.frame_1, text="Novo", bd=3, bg= '#4682B4', fg= 'white', 
+        self.bt_novo = Button(self.aba1, text="Novo", bd=3, bg= '#4682B4', fg= 'white', 
                                 font= ('verdana', 8, 'bold'), command= self.add_item)
         self.bt_novo.place(relx= 0.6, rely= 0.1, relwidth=0.1, relheight= 0.15)
         ### Criação do botão alterar
-        self.bt_alterar = Button(self.frame_1, text="Alterar", bd=3, bg= '#4682B4', fg= 'white', 
+        self.bt_alterar = Button(self.aba1, text="Alterar", bd=3, bg= '#4682B4', fg= 'white', 
                                 font= ('verdana', 8, 'bold'), command= self.altera_item)
         self.bt_alterar.place(relx= 0.7, rely= 0.1, relwidth=0.1, relheight= 0.15)
 
-        self.bt_alterar = tix.Balloon(self.frame_1)
+        self.bt_alterar = tix.Balloon(self.aba1)
         self.bt_alterar.bind_widget(self.bt_alterar, balloonmsg= "Dê dois cliques no item da lista para trazer as informações do produto")
 
         ### Criação do botão apagar
-        self.bt_apagar = Button(self.frame_1, text="Apagar", bd=3, bg= '#4682B4', fg= 'white', 
+        self.bt_apagar = Button(self.aba1, text="Apagar", bd=3, bg= '#4682B4', fg= 'white', 
                                 font= ('verdana', 8, 'bold'), command= self.deleta_item)
         self.bt_apagar.place(relx= 0.8, rely= 0.1, relwidth=0.1, relheight= 0.15)
 
         ### Criação da label e entrada do codigo
-        self.lb_codigo = Label(self.frame_1, text= "Código", bg= 'whitesmoke', fg= '#107db2')
+        self.lb_codigo = Label(self.aba1, text= "Código", bg= 'whitesmoke', fg= '#107db2')
         self.lb_codigo.place(relx= 0.05, rely= 0.05)
 
-        self.codigo_entry = Entry(self.frame_1)
+        self.codigo_entry = Entry(self.aba1)
         self.codigo_entry.place(relx= 0.05, rely= 0.15, relwidth= 0.08)
 
         ### Criação da label e entrada do nome
-        self.lb_nome = Label(self.frame_1, text= "Nome", bg= 'whitesmoke', fg= '#107db2')
+        self.lb_nome = Label(self.aba1, text= "Nome", bg= 'whitesmoke', fg= '#107db2')
         self.lb_nome.place(relx= 0.05, rely= 0.35)
 
-        self.nome_entry = Entry(self.frame_1)
+        self.nome_entry = Entry(self.aba1)
         self.nome_entry.place(relx= 0.05, rely= 0.45, relwidth= 0.35)
 
         ### Criação da label e entrada do valor
-        self.lb_valor = Label(self.frame_1, text= "Valor", bg= 'whitesmoke', fg= '#107db2')
+        self.lb_valor = Label(self.aba1, text= "Valor", bg= 'whitesmoke', fg= '#107db2')
         self.lb_valor.place(relx= 0.05, rely= 0.60)
 
-        self.valor_entry = Entry(self.frame_1)
+        self.valor_entry = Entry(self.aba1)
         self.valor_entry.place(relx= 0.05, rely= 0.70, relwidth= 0.15)
 
         ### Criação da label e entrada do descrição
-        self.lb_descricao = Label(self.frame_1, text= "Descrição", bg= 'whitesmoke', fg= '#107db2')
+        self.lb_descricao = Label(self.aba1, text= "Descrição", bg= 'whitesmoke', fg= '#107db2')
         self.lb_descricao.place(relx= 0.5, rely= 0.35)
 
-        self.descricao_entry = Entry(self.frame_1)
+        self.descricao_entry = Entry(self.aba1)
         self.descricao_entry.place(relx= 0.5, rely= 0.45, relwidth= 0.4, relheight= 0.35)
+
+
     def lista_frame2(self):
         self.listaProd = ttk.Treeview(self.frame_2, height= 3, columns= ("col1", "col2", "col3", "col4", "col5"))
         self.listaProd.heading('#0', text="")
