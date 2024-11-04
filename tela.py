@@ -4,8 +4,11 @@ from tkinter import tix
 from tkinter import messagebox
 from Produto import Produto
 
+# cria a janela principal
 root = tix.Tk()
 
+
+# classe utilizada para fazer o efeito gradiente no backgorud do frame
 class GradientFrame(Canvas):
     def __init__(self, parent, color1= "white", color2= "gray", **kwargs):
         Canvas.__init__(self, parent, **kwargs)
@@ -31,28 +34,37 @@ class GradientFrame(Canvas):
             self.create_line(i, 0, i, height, tags=("gradient",), fill=color)
         self.lower("gradient")
 
-
+# classe destinada as funções que serão utilizadas na aplicação
 class Funcs():
+
+    # limpa todos os campos de inserção 
     def limpa_tela(self):
         self.codigo_entry.delete(0, END)
         self.nome_entry.delete(0, END)
         self.valor_entry.delete(0, END)
         self.descricao_entry.delete(0, END)
     
+    # atribui todos os campos a variáveis para 
+    # facilitar a utilização
+
     def variaveis(self):
         self.codigo = self.codigo_entry.get()
         self.nome = self.nome_entry.get()
         self.valor = self.valor_entry.get()
         self.descricao = self.descricao_entry.get()
     
+    # método destinado a adição de itens no banco de dados
     def add_item(self):
         
         self.variaveis()
 
+        # faz verificação se o campo nome, código ou valor está vazio
+        # e exibe mensagem alerta caso for o caso
         if(self.nome == "") or (self.codigo == "") or (self.valor == ""):
             msg = "Para cadastrar um novo produto é necessário \n"
             msg += "que seja digitado pelo menos um codigo, nome e valor"
             messagebox.showinfo("Cadastro de produtos - Aviso !!!", msg)
+        # faz o cadastro do produto caso os campos estejam corretamente preenchidos
         else:
             novo_item = Produto(self.codigo, self.nome, self.valor, self.descricao)
             novo_item.strConnect()
@@ -61,6 +73,7 @@ class Funcs():
             self.select_lista()
             self.limpa_tela()
     
+    # faz um select no banco e insere os produtos na lista 
     def select_lista(self):
         self.listaProd.delete(*self.listaProd.get_children())
         p = Produto('','','','')
@@ -70,6 +83,7 @@ class Funcs():
         for item in lista:
             self.listaProd.insert("", END, values=(item.id, item.codigo, item.nome, f"R${item.valor:.2f}", item.descricao))
     
+    # define o método do evento de dois cliques na lista e insere as linhas nos campos
     def OnDoubleClick(self, event):
         self.variaveis()
         self.limpa_tela()
@@ -82,6 +96,7 @@ class Funcs():
             self.valor_entry.insert(END, col4.replace("R$", ""))
             self.descricao_entry.insert(END, col5)
         
+    # método que faz a exclusão do produto no banco de dados    
     def deleta_item(self):
         
         self.variaveis()
@@ -93,6 +108,7 @@ class Funcs():
         self.select_lista()
         self.limpa_tela()
 
+    # método que faz a edição do produto no banco de dados
     def altera_item(self):
         self.variaveis()
         
@@ -103,6 +119,7 @@ class Funcs():
         self.select_lista()
         self.limpa_tela()
     
+    # método que faz o select de um produto e trás a informações para os campos 
     def busca_item(self):
         self.listaProd.delete(*self.listaProd.get_children())
 
@@ -118,16 +135,19 @@ class Funcs():
 
         self.limpa_tela()
 
+# classe que define as características da aplicação e chama os métodos de execução
 class Aplication(Funcs):
     def __init__(self):
         self.root = root
         self.tela()
         self.frames_da_tela()
-        self.widgets_frame1()
+        self.widgets_aba1()
         self.lista_frame2()
         self.select_lista()
         self.Menus()
         root.mainloop()
+        
+    # define as características da janela
     def tela(self):
         self.root.title("Cadastro de Produtos")
         self.root.configure(background= '#4682B4')
@@ -135,13 +155,16 @@ class Aplication(Funcs):
         self.root.resizable(True, True)
         self.root.maxsize(width= 900, height=700)
         self.root.minsize(width= 500, height= 400)
+    
+    # define as características do frame 
     def frames_da_tela(self):
         self.frame_1 = Frame(self.root, bd=4, 
                                         bg="whitesmoke", 
                                         highlightbackground="#708090", highlightthickness=2)
         self.frame_1.place(relx= 0.02,rely= 0.02, relwidth= 0.96, relheight= 0.92)
-
-    def widgets_frame1(self):
+    
+    # define os widgets da aba 1
+    def widgets_aba1(self):
 
         self.abas = ttk.Notebook(self.frame_1)
         self.aba1 = GradientFrame(self.abas)
@@ -151,10 +174,11 @@ class Aplication(Funcs):
         self.aba2.configure(background= "whitesmoke")
 
         self.abas.add(self.aba1, text= "Produto")
-        self.abas.add(self.aba2, text="Aba 2")
+        self.abas.add(self.aba2, text="Estoque")
 
         self.abas.place(relx= 0, rely= 0, relwidth= 0.98, relheight= 0.98)
 
+        # cria um fundo 3d para os botões
         self.canvas_bt = Canvas(self.aba1, bd= 0, bg='#1e3743', highlightbackground= 'gray', highlightthickness= 4)
         self.canvas_bt.place(relx= 0.19, rely= 0.08, relwidth= 0.22, relheight= 0.11)
         
@@ -221,7 +245,7 @@ class Aplication(Funcs):
         self.descricao_entry = Entry(self.aba1)
         self.descricao_entry.place(relx= 0.5, rely= 0.32, relwidth= 0.4, relheight= 0.15)
 
-
+    # cria a lista para exibir os produtos
     def lista_frame2(self):
         self.style = ttk.Style() 
         
@@ -250,6 +274,8 @@ class Aplication(Funcs):
         self.scroolLista.place(relx=0.95, rely=0.5, relwidth=0.045, relheight=0.49)
 
         self.listaProd.bind("<Double-1>", self.OnDoubleClick)
+
+    # cria os itens do menu 
     def Menus(self):
         menubar = Menu(self.root)
         self.root.config(menu=menubar)
