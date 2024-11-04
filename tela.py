@@ -71,6 +71,7 @@ class Funcs():
             self.listaProd.insert("", END, values=(item.id, item.codigo, item.nome, f"R${item.valor:.2f}", item.descricao))
     
     def OnDoubleClick(self, event):
+        self.variaveis()
         self.limpa_tela()
         self.listaProd.selection()
 
@@ -78,7 +79,7 @@ class Funcs():
             col1, col2, col3, col4, col5 = self.listaProd.item(n, 'values')
             self.codigo_entry.insert(END, col2)
             self.nome_entry.insert(END, col3)
-            self.valor_entry.insert(END, col4)
+            self.valor_entry.insert(END, col4.replace("R$", ""))
             self.descricao_entry.insert(END, col5)
         
     def deleta_item(self):
