@@ -1,6 +1,6 @@
 import sqlite3
 from typing import List, Any
-from IBase import IBase
+from database.ibase import IBase
 
 class Base(IBase):
 

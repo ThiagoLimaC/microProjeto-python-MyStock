@@ -1,4 +1,4 @@
-from Base import Base
+from database.base import Base
 from typing import List
 
 class Produto(Base):

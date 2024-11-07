@@ -2,7 +2,11 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import tix 
 from tkinter import messagebox
-from Produto import Produto
+
+import sys 
+import os 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from business.produto import Produto
 
 # cria a janela principal
 root = tix.Tk()
