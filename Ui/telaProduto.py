@@ -55,7 +55,7 @@ class Funcs():
         lista = p.todos()
 
         for item in lista:
-            self.listaProd.insert("", END, values=(item.id, item.codigo, item.nome, f"R${item.valor:.2f}", item.descricao))
+            self.listaProd.insert("", END, values=(item.codigo, item.nome, f"R${item.valor:.2f}", item.descricao))
     
     # define o método do evento de dois cliques na lista e insere as linhas nos campos
     def OnDoubleClick(self, event):
@@ -64,11 +64,11 @@ class Funcs():
         self.listaProd.selection()
 
         for n in self.listaProd.selection():
-            col1, col2, col3, col4, col5 = self.listaProd.item(n, 'values')
-            self.codigo_entry.insert(END, col2)
-            self.nome_entry.insert(END, col3)
-            self.valor_entry.insert(END, col4.replace("R$", ""))
-            self.descricao_entry.insert(END, col5)
+            col1, col2, col3, col4 = self.listaProd.item(n, 'values')
+            self.codigo_entry.insert(END, col1)
+            self.nome_entry.insert(END, col2)
+            self.valor_entry.insert(END, col3.replace("R$", ""))
+            self.descricao_entry.insert(END, col4)
         
     # método que faz a exclusão do produto no banco de dados    
     def deleta_item(self):
@@ -105,7 +105,7 @@ class Funcs():
         lista = p.busca(nome)
 
         for item in lista:
-            self.listaProd.insert("", END, values=(item.id, item.codigo, item.nome, item.valor, item.descricao))
+            self.listaProd.insert("", END, values=(item.codigo, item.nome, item.valor, item.descricao))
 
         self.limpa_tela()
 
@@ -190,21 +190,19 @@ class telaProduto(Funcs):
         
         self.style.configure("Treeview.Heading", font=("Helvetica", 10, "bold"))
 
-        self.listaProd = ttk.Treeview(self.aba1, height= 3, columns= ("col1", "col2", "col3", "col4", "col5"), style="Treeview")
+        self.listaProd = ttk.Treeview(self.aba1, height= 3, columns= ("col1", "col2", "col3", "col4"), style="Treeview")
 
         self.listaProd.heading('#0', text="")
-        self.listaProd.heading('#1', text="Id")
-        self.listaProd.heading('#2', text="Codigo") 
-        self.listaProd.heading('#3', text="Nome")
-        self.listaProd.heading('#4', text="Valor")
-        self.listaProd.heading('#5', text="Descrição")
+        self.listaProd.heading('#1', text="Codigo") 
+        self.listaProd.heading('#2', text="Nome")
+        self.listaProd.heading('#3', text="Valor")
+        self.listaProd.heading('#4', text="Descrição")
 
         self.listaProd.column("#0", width=0, anchor= "center")
         self.listaProd.column("#1", width=50, anchor= "center")
         self.listaProd.column("#2", width=55, anchor= "center")
         self.listaProd.column("#3", width=150, anchor= "center")
         self.listaProd.column("#4", width=100, anchor= "center")
-        self.listaProd.column("#5", width=250, anchor= "center")
 
         self.listaProd.place(relx= 0.01, rely= 0.5, relwidth= 0.95, relheight= 0.49)
 

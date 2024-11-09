@@ -6,7 +6,7 @@ cursor = connection.cursor()
 
 create_tableProduto_query = '''
 CREATE TABLE IF NOT EXISTS Produto (
-    codigo INTEGER PRIMARY KEY,
+    codigo VARCHAR(7) PRIMARY KEY,
     nome TEXT NOT NULL,
     valor REAL NOT NULL,
     descricao TEXT
