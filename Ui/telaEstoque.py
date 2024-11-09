@@ -6,19 +6,20 @@ from tkinter import messagebox
 import sys 
 import os 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from business.produto import Produto
 from business.estoque import Estoque
 
 class Funcs():
 
     def limpa_tela(self):
         self.codigo_entry.delete(0, END)
+        self.nome_entry.delete(0, END)
         self.quantidade_entry.delete(0, END)
         self.quantMax_entry.delete(0, END)
         self.quantMin_entry.delete(0, END)
 
     def variaveis(self):
         self.codigo = self.codigo_entry.get()
+        self.nome = self.nome_entry.get()
         self.quantidade = self.quantidade_entry.get()
         self.quantMax = self.quantMax_entry.get()
         self.quantMin = self.quantMin_entry.get()
@@ -29,13 +30,13 @@ class Funcs():
 
         # faz verificação se o campo nome, código ou valor está vazio
         # e exibe mensagem alerta caso for o caso
-        if(self.codigo == "") or (self.quantidade == "") or (self.quantMin == ""):
+        if(self.codigo == "") or (self.quantidade == "") or (self.nome == "") or (self.quantMin == ""):
             msg = "Para cadastrar um novo produto no estoque é necessário \n"
-            msg += "que seja digitado pelo menos um codigo, quantidade e minímo"
+            msg += "que seja digitado pelo menos um codigo, nome, quantidade e minímo"
             messagebox.showinfo("Cadastro de produtos no estoque - Aviso !!!", msg)
         # faz o cadastro do produto caso os campos estejam corretamente preenchidos
         else:
-            novo_item = Estoque(self.codigo, self.quantidade, self.quantMax, self.quantMin)
+            novo_item = Estoque(self.codigo, self.nome, self.quantidade, self.quantMax, self.quantMin)
             novo_item.strConnect()
             novo_item.salvar(1)
 
@@ -44,12 +45,12 @@ class Funcs():
     
     def select_lista(self):
         self.listaEst.delete(*self.listaEst.get_children())
-        p = Estoque('','','','')
+        p = Estoque('','','','','')
         p.strConnect()
         lista = p.todos()
 
         for item in lista:
-            self.listaEst.insert("", END, values=(item.codigo, item.quantidade, item.quantMax, item.quantMin))
+            self.listaEst.insert("", END, values=(item.codigo, item.nome, item.quantidade, item.quantMax, item.quantMin))
     
 
     def OnDoubleClick(self, event):
@@ -58,17 +59,18 @@ class Funcs():
         self.listaEst.selection()
 
         for n in self.listaEst.selection():
-            col1, col2, col3, col4 = self.listaEst.item(n, 'values')
+            col1, col2, col3, col4, col5 = self.listaEst.item(n, 'values')
             self.codigo_entry.insert(END, col1)
-            self.quantidade_entry.insert(END, col2)
-            self.quantMax_entry.insert(END, col3)
-            self.quantMin_entry.insert(END, col4)
+            self.nome_entry.insert(END, col2)
+            self.quantidade_entry.insert(END, col3)
+            self.quantMax_entry.insert(END, col4)
+            self.quantMin_entry.insert(END, col5)
     
     def deleta_item(self):
         
         self.variaveis()
 
-        novo_item = Estoque(self.codigo, self.quantidade, self.quantMax, self.quantMin)
+        novo_item = Estoque(self.codigo, self.nome, self.quantidade, self.quantMax, self.quantMin)
         novo_item.strConnect()
         novo_item.salvar(3)
 
@@ -78,7 +80,7 @@ class Funcs():
     def altera_item(self):
         self.variaveis()
         
-        novo_item = Estoque(self.codigo, self.quantidade, self.quantMax, self.quantMin)
+        novo_item = Estoque(self.codigo, self.nome, self.quantidade, self.quantMax, self.quantMin)
         novo_item.strConnect()
         novo_item.salvar(2)
 
@@ -90,14 +92,14 @@ class Funcs():
         self.nome_entry.insert(END, '%')
         nome = self.nome_entry.get()
 
-        p = Produto('', '', '', '')
-        p.strConnect()
-        lista = p.busca(nome)
+        e = Estoque('', '', '', '', '')
+        e.strConnect()
+        lista = e.busca(nome)
 
         for item in lista:
-            self.codigo_entry.insert(0, item.codigo)
+            self.listaEst.insert("", END, values=(item.codigo, item.nome, item.quantidade, item.quantMax, item.quantMin))
 
-        self.nome_entry.delete(0, END)
+        self.nome_entry.delete(END, '%')
 
 class telaEstoque(Funcs):
 
@@ -185,19 +187,21 @@ class telaEstoque(Funcs):
         
         self.style.configure("Treeview.Heading", font=("Helvetica", 10, "bold"))
 
-        self.listaEst = ttk.Treeview(self.aba1, height= 3, columns= ("col1", "col2", "col3", "col4"), style="Treeview")
+        self.listaEst = ttk.Treeview(self.aba1, height= 3, columns= ("col1", "col2", "col3", "col4", "col5"), style="Treeview")
 
         self.listaEst.heading('#0', text="")
         self.listaEst.heading('#1', text="Codigo Produto") 
-        self.listaEst.heading('#2', text="Quantidade")
-        self.listaEst.heading('#3', text="Estoque Alto")
-        self.listaEst.heading('#4', text="Estoque Baixo")
+        self.listaEst.heading('#2', text="Nome Produto") 
+        self.listaEst.heading('#3', text="Quantidade")
+        self.listaEst.heading('#4', text="Estoque Alto")
+        self.listaEst.heading('#5', text="Estoque Baixo")
 
         self.listaEst.column("#0", width=0, anchor= "center")
-        self.listaEst.column("#1", width=70, anchor= "center")
-        self.listaEst.column("#2", width=55, anchor= "center")
+        self.listaEst.column("#1", width=65, anchor= "center")
+        self.listaEst.column("#2", width=85, anchor= "center")
         self.listaEst.column("#3", width=55, anchor= "center")
         self.listaEst.column("#4", width=55, anchor= "center")
+        self.listaEst.column("#5", width=55, anchor= "center")
 
         self.listaEst.place(relx= 0.01, rely= 0.5, relwidth= 0.95, relheight= 0.49)
 
