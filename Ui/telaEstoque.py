@@ -6,6 +6,7 @@ from tkinter import messagebox
 import sys 
 import os 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from business.produto import Produto
 from business.estoque import Estoque
 
 class Funcs():
@@ -85,19 +86,18 @@ class Funcs():
         self.limpa_tela()
 
     def busca_item(self):
-        self.listaEst.delete(*self.listaEst.get_children())
+        
+        self.nome_entry.insert(END, '%')
+        nome = self.nome_entry.get()
 
-        self.codigo_entry.insert(END, '%')
-        codigo = self.codigo_entry.get()
-
-        p = Estoque('', '', '', '')
+        p = Produto('', '', '', '')
         p.strConnect()
-        lista = p.busca(codigo)
+        lista = p.busca(nome)
 
         for item in lista:
-            self.listaProd.insert("", END, values=(item.codigo, item.nome, item.valor, item.descricao))
+            self.codigo_entry.insert(0, item.codigo)
 
-        self.limpa_tela()
+        self.nome_entry.delete(0, END)
 
 class telaEstoque(Funcs):
 
@@ -110,8 +110,15 @@ class telaEstoque(Funcs):
     def wigets_estoque(self):
 
         self.canvas_bt = Canvas(self.aba1, bd= 0, bg='#1e3743', highlightbackground= 'gray', highlightthickness= 4)
-        self.canvas_bt.place(relx= 0.52, rely= 0.09, relwidth= 0.12, relheight= 0.09)
+        self.canvas_bt.place(relx= 0.52, rely= 0.09, relwidth= 0.22, relheight= 0.09)
         
+        ### Criação do botão limpar
+        self.bt_limpar = Button(self.aba1, text="Limpar", bd=3, bg= '#4682B4', fg= 'white',
+                                activebackground='#108ecb', activeforeground="white",
+                                font= ('verdana', 8, 'bold'), command= self.limpa_tela)
+        self.bt_limpar.place(relx= 0.63, rely= 0.1, relwidth=0.1, relheight= 0.07)
+
+
         ### Criação do botão buscar
         self.bt_buscar = Button(self.aba1, text="Buscar", bd=3, bg= '#4682B4', fg= 'white',
                                 activebackground='#108ecb', activeforeground="white", 
@@ -119,7 +126,7 @@ class telaEstoque(Funcs):
         self.bt_buscar.place(relx= 0.53, rely= 0.1, relwidth=0.1, relheight= 0.07)
 
         self.balao_buscar = tix.Balloon(self.aba1)
-        self.balao_buscar.bind_widget(self.bt_buscar, balloonmsg= "Digite no campo nome o produto que deseja pesquisar")
+        self.balao_buscar.bind_widget(self.bt_buscar, balloonmsg= "Digite no campo nome o produto que deseja pesquisar o código")
 
         ### Criação da label e entrada do codigo
         self.lb_nome = Label(self.aba1, text= "Nome do Produto", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
@@ -156,6 +163,23 @@ class telaEstoque(Funcs):
         self.quantMin_entry = Entry(self.aba1)
         self.quantMin_entry.place(relx= 0.73, rely= 0.28, relwidth= 0.15)
 
+        self.canvas_bt = Canvas(self.aba1, bd= 0, bg='#1e3743', highlightbackground= 'gray', highlightthickness= 4)
+        self.canvas_bt.place(relx= 0.35, rely= 0.37, relwidth= 0.32, relheight= 0.09)
+
+        ### Criação do botão novo
+        self.bt_novo = Button(self.aba1, text="Novo", bd=3, bg= '#4682B4', fg= 'white', 
+                                font= ('verdana', 8, 'bold'), command= self.add_item)
+        self.bt_novo.place(relx= 0.36, rely= 0.38, relwidth=0.1, relheight= 0.07)
+        ### Criação do botão alterar
+        self.bt_alterar = Button(self.aba1, text="Alterar", bd=3, bg= '#4682B4', fg= 'white', 
+                                font= ('verdana', 8, 'bold'), command= self.altera_item)
+        self.bt_alterar.place(relx= 0.46, rely= 0.38, relwidth=0.1, relheight= 0.07)
+
+        ### Criação do botão apagar
+        self.bt_apagar = Button(self.aba1, text="Apagar", bd=3, bg= '#4682B4', fg= 'white', 
+                                font= ('verdana', 8, 'bold'), command= self.deleta_item)
+        self.bt_apagar.place(relx= 0.56, rely= 0.38, relwidth=0.1, relheight= 0.07)
+
     def lista_estoque(self):
         self.style = ttk.Style() 
         
@@ -166,14 +190,14 @@ class telaEstoque(Funcs):
         self.listaEst.heading('#0', text="")
         self.listaEst.heading('#1', text="Codigo Produto") 
         self.listaEst.heading('#2', text="Quantidade")
-        self.listaEst.heading('#3', text="Quant Max")
-        self.listaEst.heading('#4', text="Quant Min")
+        self.listaEst.heading('#3', text="Estoque Alto")
+        self.listaEst.heading('#4', text="Estoque Baixo")
 
         self.listaEst.column("#0", width=0, anchor= "center")
-        self.listaEst.column("#1", width=50, anchor= "center")
+        self.listaEst.column("#1", width=70, anchor= "center")
         self.listaEst.column("#2", width=55, anchor= "center")
-        self.listaEst.column("#3", width=150, anchor= "center")
-        self.listaEst.column("#4", width=100, anchor= "center")
+        self.listaEst.column("#3", width=55, anchor= "center")
+        self.listaEst.column("#4", width=55, anchor= "center")
 
         self.listaEst.place(relx= 0.01, rely= 0.5, relwidth= 0.95, relheight= 0.49)
 
