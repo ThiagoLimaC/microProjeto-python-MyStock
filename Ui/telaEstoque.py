@@ -108,79 +108,48 @@ class telaEstoque(Funcs):
         self.select_lista()
 
     def wigets_estoque(self):
+
         self.canvas_bt = Canvas(self.aba1, bd= 0, bg='#1e3743', highlightbackground= 'gray', highlightthickness= 4)
-        self.canvas_bt.place(relx= 0.29, rely= 0.05, relwidth= 0.22, relheight= 0.11)
-
-        ### Criação do botão limpar
-        self.bt_limpar = Button(self.aba1, text="Limpar", bd=3, bg= '#4682B4', fg= 'white',
-                                activebackground='#108ecb', activeforeground="white",
-                                font= ('verdana', 8, 'bold'), command= self.limpa_tela)
-        self.bt_limpar.place(relx= 0.3, rely= 0.07, relwidth=0.1, relheight= 0.07)
-
+        self.canvas_bt.place(relx= 0.52, rely= 0.09, relwidth= 0.12, relheight= 0.09)
+        
         ### Criação do botão buscar
         self.bt_buscar = Button(self.aba1, text="Buscar", bd=3, bg= '#4682B4', fg= 'white',
                                 activebackground='#108ecb', activeforeground="white", 
                                 font= ('verdana', 8, 'bold'), command= self.busca_item)
-        self.bt_buscar.place(relx= 0.4, rely= 0.07, relwidth=0.1, relheight= 0.07)
+        self.bt_buscar.place(relx= 0.53, rely= 0.1, relwidth=0.1, relheight= 0.07)
 
         self.balao_buscar = tix.Balloon(self.aba1)
         self.balao_buscar.bind_widget(self.bt_buscar, balloonmsg= "Digite no campo nome o produto que deseja pesquisar")
 
-        self.canvas_bt = Canvas(self.aba1, bd= 0, bg='#1e3743', highlightbackground= 'gray', highlightthickness= 4)
-        self.canvas_bt.place(relx= 0.59, rely= 0.05, relwidth= 0.32, relheight= 0.11)
-
-        ### Criação do botão novo
-        self.bt_novo = Button(self.aba1, text="Novo", bd=3, bg= '#4682B4', fg= 'white', 
-                                font= ('verdana', 8, 'bold'), command= self.add_item)
-        self.bt_novo.place(relx= 0.6, rely= 0.07, relwidth=0.1, relheight= 0.07)
-        ### Criação do botão alterar
-        self.bt_alterar = Button(self.aba1, text="Alterar", bd=3, bg= '#4682B4', fg= 'white', 
-                                font= ('verdana', 8, 'bold'), command= self.altera_item)
-        self.bt_alterar.place(relx= 0.7, rely= 0.07, relwidth=0.1, relheight= 0.07)
-
-        self.bt_alterar = tix.Balloon(self.aba1)
-        self.bt_alterar.bind_widget(self.bt_alterar, balloonmsg= "Dê dois cliques no item da lista para trazer as informações do produto")
-
-        ### Criação do botão apagar
-        self.bt_apagar = Button(self.aba1, text="Apagar", bd=3, bg= '#4682B4', fg= 'white', 
-                                font= ('verdana', 8, 'bold'), command= self.deleta_item)
-        self.bt_apagar.place(relx= 0.8, rely= 0.07, relwidth=0.1, relheight= 0.07)
-
+        
+        
         ### Criação da label e entrada do codigo
-        self.lb_codigo = Label(self.aba1, text= "Código do Produto", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
-        self.lb_codigo.place(relx= 0.05, rely= 0.05)
-
-        self.codigo_entry = Entry(self.aba1)
-        self.codigo_entry.place(relx= 0.05, rely= 0.11, relwidth= 0.19)
-
-        ### Criação da label e entrada do nome
-        self.lb_nome = Label(self.aba1, text= "Nome do Produto", bg= 'whitesmoke', fg= '#107db2', font=("Helvetica", 10, "bold"))
-        self.lb_nome.place(relx= 0.05, rely= 0.2)
+        self.lb_nome = Label(self.aba1, text= "Nome do Produto", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
+        self.lb_nome.place(relx= 0.05, rely= 0.05)
 
         self.nome_entry = Entry(self.aba1)
-        self.nome_entry.place(relx= 0.05, rely= 0.25, relwidth= 0.35)
+        self.nome_entry.place(relx= 0.05, rely= 0.11, relwidth= 0.45)
 
-        ### Criação da label e entrada do valor
-        self.lb_quantidade = Label(self.aba1, text= "Quantidade em estoque", bg= 'whitesmoke', fg= '#107db2', font=("Helvetica", 10, "bold"))
-        self.lb_quantidade.place(relx= 0.05, rely= 0.33)
+        ### Criação da label e entrada do codigo
+        self.lb_codigo = Label(self.aba1, text= "Codigo do Produto", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
+        self.lb_codigo.place(relx= 0.05, rely= 0.22)
+
+        self.codigo_entry = Entry(self.aba1)
+        self.codigo_entry.place(relx= 0.05, rely= 0.28, relwidth= 0.19)
+
+        ### Criação da label e entrada do codigo
+        self.lb_quantidade = Label(self.aba1, text= "Quantidade do Produto", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
+        self.lb_quantidade.place(relx= 0.3, rely= 0.22)
 
         self.quantidade_entry = Entry(self.aba1)
-        self.quantidade_entry.place(relx= 0.05, rely= 0.39, relwidth= 0.24)
+        self.quantidade_entry.place(relx= 0.3, rely= 0.28, relwidth= 0.23)
 
-        ### Criação da label e entrada do valor
-        self.lb_quantMax = Label(self.aba1, text= "Quantidade Máxima", bg= 'whitesmoke', fg= '#107db2', font=("Helvetica", 10, "bold"))
-        self.lb_quantMax.place(relx= 0.5, rely= 0.2)
+        ### Criação da label e entrada do codigo
+        self.lb_quantMax = Label(self.aba1, text= "Quantidade do Produto", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
+        self.lb_quantMax.place(relx= 0.3, rely= 0.22)
 
-        self.quantMax_entry = Entry(self.aba1)
-        self.quantMax_entry.place(relx= 0.5, rely= 0.26, relwidth= 0.21)
-
-        ### Criação da label e entrada do descrição
-        self.lb_quantMin = Label(self.aba1, text= "Quantidade Mínima", bg= 'whitesmoke', fg= '#107db2', font=("Helvetica", 10, "bold"))
-        self.lb_quantMin.place(relx= 0.5, rely= 0.33)
-
-        self.quantMin_entry = Entry(self.aba1)
-        self.quantMin_entry.place(relx= 0.5, rely= 0.39, relwidth= 0.21)
-    
+        self.quantidade_entry = Entry(self.aba1)
+        self.quantidade_entry.place(relx= 0.3, rely= 0.28, relwidth= 0.23)
 
     def lista_estoque(self):
         self.style = ttk.Style() 
