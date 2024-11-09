@@ -4,21 +4,24 @@ connection = sqlite3.connect("MyStockDb.sqlite")
 
 cursor = connection.cursor()
 
-create_table_query = '''
+create_tableProduto_query = '''
 CREATE TABLE IF NOT EXISTS Produto (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    codigo INTEGER UNIQUE,
+    codigo INTEGER PRIMARY KEY,
     nome TEXT NOT NULL,
     valor REAL NOT NULL,
     descricao TEXT
 )
 '''
 
+drop_table = '''
+DROP TABLE Produto
+'''
+
 insert_query = '''
 INSERT INTO Produto VALUES ('Borracha', 3.50, 'carai borracha mano')
 '''
 
-cursor.execute(create_table_query)
+cursor.execute(create_tableProduto_query)
 # cursor.execute(insert_query)
 
 connection.commit()
