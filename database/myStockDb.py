@@ -13,6 +13,15 @@ CREATE TABLE IF NOT EXISTS Produto (
 )
 '''
 
+create_tableEstoque_query = '''
+CREATE TABLE IF NOT EXISTS Estoque (
+    codigo VARCHAR(7) PRIMARY KEY,
+    quantidade INTEGER NOT NULL,
+    quantMax INTEGER NOT NULL,
+    quantMin INTEGER NOT NULL
+)
+'''
+
 drop_table = '''
 DROP TABLE Produto
 '''
@@ -21,7 +30,7 @@ insert_query = '''
 INSERT INTO Produto VALUES ('Borracha', 3.50, 'carai borracha mano')
 '''
 
-cursor.execute(create_tableProduto_query)
+cursor.execute(create_tableEstoque_query)
 # cursor.execute(insert_query)
 
 connection.commit()
