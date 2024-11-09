@@ -121,8 +121,6 @@ class telaEstoque(Funcs):
         self.balao_buscar = tix.Balloon(self.aba1)
         self.balao_buscar.bind_widget(self.bt_buscar, balloonmsg= "Digite no campo nome o produto que deseja pesquisar")
 
-        
-        
         ### Criação da label e entrada do codigo
         self.lb_nome = Label(self.aba1, text= "Nome do Produto", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
         self.lb_nome.place(relx= 0.05, rely= 0.05)
@@ -145,11 +143,18 @@ class telaEstoque(Funcs):
         self.quantidade_entry.place(relx= 0.3, rely= 0.28, relwidth= 0.23)
 
         ### Criação da label e entrada do codigo
-        self.lb_quantMax = Label(self.aba1, text= "Quantidade do Produto", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
-        self.lb_quantMax.place(relx= 0.3, rely= 0.22)
+        self.lb_quantMax = Label(self.aba1, text= "Estoque Alto", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
+        self.lb_quantMax.place(relx= 0.57, rely= 0.22)
 
-        self.quantidade_entry = Entry(self.aba1)
-        self.quantidade_entry.place(relx= 0.3, rely= 0.28, relwidth= 0.23)
+        self.quantMax_entry = Entry(self.aba1)
+        self.quantMax_entry.place(relx= 0.57, rely= 0.28, relwidth= 0.13)
+
+         ### Criação da label e entrada do codigo
+        self.lb_quantMin = Label(self.aba1, text= "Estoque Baixo", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
+        self.lb_quantMin.place(relx= 0.73, rely= 0.22)
+
+        self.quantMin_entry = Entry(self.aba1)
+        self.quantMin_entry.place(relx= 0.73, rely= 0.28, relwidth= 0.15)
 
     def lista_estoque(self):
         self.style = ttk.Style() 

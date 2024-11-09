@@ -73,7 +73,7 @@ class Aplication():
         self.abas.add(self.aba2, text="Estoque")
 
         self.abas.place(relx= 0, rely= 0, relwidth= 1, relheight= 1)
-
+        
         telaProduto(self.aba1)
         telaEstoque(self.aba2)
 
