@@ -1,12 +1,12 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import tix 
-from tkinter import messagebox
 
 import sys 
 import os 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from ui.telaProduto import telaProduto
+from ui.telaEstoque import telaEstoque
 
 # cria a janela principal
 root = tix.Tk()
@@ -75,5 +75,6 @@ class Aplication():
         self.abas.place(relx= 0, rely= 0, relwidth= 1, relheight= 1)
 
         telaProduto(self.aba1)
+        telaEstoque(self.aba2)
 
 Aplication()
