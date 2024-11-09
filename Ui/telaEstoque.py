@@ -7,6 +7,7 @@ import sys
 import os 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from business.estoque import Estoque
+from business.produto import Produto
 
 class Funcs():
 
@@ -36,6 +37,8 @@ class Funcs():
             messagebox.showinfo("Cadastro de produtos no estoque - Aviso !!!", msg)
         # faz o cadastro do produto caso os campos estejam corretamente preenchidos
         else:
+            self.estoque_baixo()
+
             novo_item = Estoque(self.codigo, self.nome, self.quantidade, self.quantMax, self.quantMin)
             novo_item.strConnect()
             novo_item.salvar(1)
@@ -80,6 +83,8 @@ class Funcs():
     def altera_item(self):
         self.variaveis()
         
+        self.estoque_baixo()
+
         novo_item = Estoque(self.codigo, self.nome, self.quantidade, self.quantMax, self.quantMin)
         novo_item.strConnect()
         novo_item.salvar(2)
@@ -92,14 +97,19 @@ class Funcs():
         self.nome_entry.insert(END, '%')
         nome = self.nome_entry.get()
 
-        e = Estoque('', '', '', '', '')
+        e = Produto('', '', '', '')
         e.strConnect()
         lista = e.busca(nome)
 
         for item in lista:
-            self.listaEst.insert("", END, values=(item.codigo, item.nome, item.quantidade, item.quantMax, item.quantMin))
+            self.codigo_entry.insert(0, item.codigo)
 
-        self.nome_entry.delete(END, '%')
+        self.nome_entry.delete(len(self.nome_entry.get())-1, END)
+
+    def estoque_baixo(self):
+        if (self.quantidade_entry.get() <= self.quantMin_entry.get()):
+            msg = "Quantidade de produto menor ou igual ao mínimo em estoque"
+            messagebox.showinfo("Alerta de Estoque Baixo !!!", msg)
 
 class telaEstoque(Funcs):
 
