@@ -5,7 +5,7 @@ from datetime import date
 class Cliente(Base):
 
     def __init__(self, cpf: str, nome: str, telefone: str, endereco: str):
-        self.codigo = cpf
+        self.cpf = cpf
         self.nome = nome
         self.telefone = telefone
         self.endereco = endereco

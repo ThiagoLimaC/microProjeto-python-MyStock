@@ -25,16 +25,17 @@ CREATE TABLE IF NOT EXISTS Estoque (
 )
 '''
 
-drop_table = '''
-DROP TABLE Estoque
+create_tableCliente_query = '''
+CREATE TABLE IF NOT EXISTS Cliente (
+    cpf VARCHAR(11) PRIMARY KEY,
+    nome TEXT NOT NULL,
+    telefone VARCHAR(14) NOT NULL,
+    endereco TEXT
+)
 '''
 
-insert_query = '''
-INSERT INTO Produto VALUES ('Borracha', 3.50, 'carai borracha mano')
-'''
 
-cursor.execute(create_tableEstoque_query)
-# cursor.execute(insert_query)
+cursor.execute(create_tableCliente_query)
 
 connection.commit()
 

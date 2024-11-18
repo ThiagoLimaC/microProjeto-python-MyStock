@@ -7,6 +7,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from ui.telaProduto import telaProduto
 from ui.telaEstoque import telaEstoque
+from ui.telaCliente import telaCliente
 
 # cria a janela principal
 root = tix.Tk()
@@ -65,16 +66,20 @@ class Aplication():
         self.abas = ttk.Notebook(self.frame_1)
         self.aba1 = GradientFrame(self.abas)
         self.aba2 = GradientFrame(self.abas)
+        self.aba3 = GradientFrame(self.abas)
 
         self.aba1.configure(background= "whitesmoke")
         self.aba2.configure(background= "whitesmoke")
+        self.aba3.configure(background= "whitesmoke")
 
         self.abas.add(self.aba1, text= "Produto")
         self.abas.add(self.aba2, text="Estoque")
+        self.abas.add(self.aba3, text="Cliente")
 
         self.abas.place(relx= 0, rely= 0, relwidth= 1, relheight= 1)
         
         telaProduto(self.aba1)
         telaEstoque(self.aba2)
+        telaCliente(self.aba3)
 
 Aplication()
