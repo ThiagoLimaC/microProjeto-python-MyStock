@@ -4,6 +4,8 @@ from datetime import date
 
 class Cliente(Base):
 
+    primary_key = 'cpf'
+
     def __init__(self, cpf: str, nome: str, telefone: str, endereco: str):
         self.cpf = cpf
         self.nome = nome
