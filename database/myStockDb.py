@@ -34,8 +34,19 @@ CREATE TABLE IF NOT EXISTS Cliente (
 )
 '''
 
+create_tableVenda_query = '''
+CREATE TABLE IF NOT EXISTS Venda (
+    codigo VARCHAR(7),
+    cpf VARCHAR(7),
+    quantidade INT NOT NULL,
+    dataVenda DATE NOT NULL,
+    PRIMARY KEY (codigo, cpf),
+    FOREIGN KEY (codigo) REFERENCES Produto(codigo),
+    FOREIGN KEY (cpf) REFERENCES Cliente(cpf)
+)
+'''
 
-cursor.execute(create_tableCliente_query)
+cursor.execute(create_tableVenda_query)
 
 connection.commit()
 

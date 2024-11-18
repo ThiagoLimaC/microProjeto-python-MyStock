@@ -4,7 +4,7 @@ from database.ibase import IBase
 
 class Base(IBase):
 
-    primary_key = 'codigo'
+    primary_keys = ('codigo',)
 
     # definindo o método que contém a string de conexão
     def __init__(self):
@@ -33,11 +33,11 @@ class Base(IBase):
                 query = f"INSERT INTO {self.__class__.__name__} ({','.join(colunas)}) VALUES ({','.join(valores)})"
             elif acao == 2:
                 col_val_str = ', '.join([f"{coluna}={valor}" for coluna, valor in zip(colunas, valores)])
-                primary_key_value = getattr(self, self.primary_key) 
-                query = f"UPDATE {self.__class__.__name__} SET {col_val_str} WHERE {self.primary_key}={primary_key_value}"
+                primary_key_conditions = ' AND '.join([f"{key}='{getattr(self, key)}'" for key in self.primary_keys])
+                query = f"UPDATE {self.__class__.__name__} SET {col_val_str} WHERE {primary_key_conditions}"
             elif acao == 3:
                 primary_key_value = getattr(self, self.primary_key) 
-                query = f"DELETE FROM {self.__class__.__name__} WHERE {self.primary_key}={primary_key_value}"
+                query = f"DELETE FROM {self.__class__.__name__} WHERE {primary_key_conditions}"
             
             cursor.execute(query)
             connection.commit()

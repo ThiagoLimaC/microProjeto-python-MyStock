@@ -3,7 +3,7 @@ from typing import List
 
 class Produto(Base):
     
-    primary_key = 'codigo'
+    primary_keys = ('codigo',)
 
     def __init__(self, codigo: str, nome: str, valor: float, descricao: str):
         self.codigo = codigo
