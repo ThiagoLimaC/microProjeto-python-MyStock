@@ -2,6 +2,8 @@ from database.base import Base
 from typing import List
 
 class Produto(Base):
+    
+    primary_key = 'codigo'
 
     def __init__(self, codigo: str, nome: str, valor: float, descricao: str):
         self.codigo = codigo

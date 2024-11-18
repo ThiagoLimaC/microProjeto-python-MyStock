@@ -36,7 +36,8 @@ class Base(IBase):
                 primary_key_value = getattr(self, self.primary_key) 
                 query = f"UPDATE {self.__class__.__name__} SET {col_val_str} WHERE {self.primary_key}={primary_key_value}"
             elif acao == 3:
-                query = f"DELETE FROM {self.__class__.__name__} WHERE codigo={self.codigo}"
+                primary_key_value = getattr(self, self.primary_key) 
+                query = f"DELETE FROM {self.__class__.__name__} WHERE {self.primary_key}={primary_key_value}"
             
             cursor.execute(query)
             connection.commit()

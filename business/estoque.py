@@ -3,6 +3,8 @@ from typing import List
 
 class Estoque(Base):
 
+    primary_key = 'codigo'
+
     def __init__(self, codigo: str, nome: str, quantidade: int, quantMax: int, quantMin: int):
         self.codigo = codigo
         self.nome = nome
