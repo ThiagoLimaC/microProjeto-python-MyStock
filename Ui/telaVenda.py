@@ -83,7 +83,7 @@ class Funcs():
     def altera_item(self):
         self.variaveis()
 
-        novo_item = Venda(self.codigo, self.nome, self.quantidade, self.quantMax, self.quantMin)
+        novo_item = Venda(self.codigo, self.cpf, self.quantidade, self.dataVenda)
         novo_item.strConnect()
         novo_item.salvar(2)
 
@@ -92,16 +92,140 @@ class Funcs():
 
     def busca_item(self):
         
-        self.nome_entry.insert(END, '%')
-        nome = self.nome_entry.get()
+        self.nomeProduto_entry.insert(END, '%')
+        nomeProduto = self.nomeProduto_entry.get()
 
         e = Produto('', '', '', '')
         e.strConnect()
-        lista = e.busca(nome)
+        listaP = e.busca(nomeProduto)
 
-        for item in lista:
+        for item in listaP:
             self.codigo_entry.insert(0, item.codigo)
 
-        self.nome_entry.delete(len(self.nome_entry.get())-1, END)
+        self.nomeProduto_entry.delete(len(self.nomeProduto_entry.get())-1, END)
 
-    
+        self.nomeCliente_entry.insert(END, '%')
+        nomeCliente = self.nomeCliente_entry.get()
+
+        c = Cliente('', '', '', '')
+        c.strConnect()
+        listaC = e.busca(nomeCliente)
+
+        for item in listaC:
+            self.cpf_entry.insert(0, item.cpf)
+
+        self.nomeCliente_entry.delete(len(self.nomeCliente_entry.get())-1, END)
+
+class telaVenda(Funcs):
+
+    def __init__(self, aba1):
+        self.aba1 = aba1
+        self.wigets_venda()
+        self.lista_venda()
+        self.select_lista()
+
+    def wigets_venda(self):
+
+        self.canvas_bt = Canvas(self.aba1, bd= 0, bg='#1e3743', highlightbackground= 'gray', highlightthickness= 4)
+        self.canvas_bt.place(relx= 0.52, rely= 0.09, relwidth= 0.22, relheight= 0.09)
+        
+        ### Criação do botão limpar
+        self.bt_limpar = Button(self.aba1, text="Limpar", bd=3, bg= '#4682B4', fg= 'white',
+                                activebackground='#108ecb', activeforeground="white",
+                                font= ('verdana', 8, 'bold'), command= self.limpa_tela)
+        self.bt_limpar.place(relx= 0.63, rely= 0.1, relwidth=0.1, relheight= 0.07)
+
+
+        ### Criação do botão buscar
+        self.bt_buscar = Button(self.aba1, text="Buscar", bd=3, bg= '#4682B4', fg= 'white',
+                                activebackground='#108ecb', activeforeground="white", 
+                                font= ('verdana', 8, 'bold'), command= self.busca_item)
+        self.bt_buscar.place(relx= 0.53, rely= 0.1, relwidth=0.1, relheight= 0.07)
+
+        self.balao_buscar = tix.Balloon(self.aba1)
+        self.balao_buscar.bind_widget(self.bt_buscar, balloonmsg= "Digite no campo nome do produto e cliente que deseja pesquisar o código e cpf")
+
+        ### Criação da label e entrada do codigo
+        self.lb_nomeProduto = Label(self.aba1, text= "Nome do Produto", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
+        self.lb_nomeProduto.place(relx= 0.05, rely= 0.05)
+
+        self.nomeProduto_entry = Entry(self.aba1)
+        self.nomeProduto_entry.place(relx= 0.05, rely= 0.11, relwidth= 0.45)
+
+        self.lb_nomeCliente = Label(self.aba1, text= "Nome do Cliente", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
+        self.lb_nomeCliente.place(relx= 0.05, rely= 0.1)
+
+        self.nomeCliente_entry = Entry(self.aba1)
+        self.nomeCliente_entry.place(relx= 0.05, rely= 0.16, relwidth= 0.45)
+
+        ### Criação da label e entrada do codigo
+        self.lb_codigo = Label(self.aba1, text= "Codigo do Produto", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
+        self.lb_codigo.place(relx= 0.05, rely= 0.22)
+
+        self.codigo_entry = Entry(self.aba1)
+        self.codigo_entry.place(relx= 0.05, rely= 0.28, relwidth= 0.19)
+
+        ### Criação da label e entrada do codigo
+        self.lb_cpf = Label(self.aba1, text= "CPF do Cliente", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
+        self.lb_cpf.place(relx= 0.3, rely= 0.22)
+
+        self.cpf_entry = Entry(self.aba1)
+        self.cpf_entry.place(relx= 0.3, rely= 0.28, relwidth= 0.23)
+
+        ### Criação da label e entrada do codigo
+        self.lb_quantidade = Label(self.aba1, text= "Quantidade Vendida", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
+        self.lb_quantidade.place(relx= 0.57, rely= 0.22)
+
+        self.quantidade_entry = Entry(self.aba1)
+        self.quantidade_entry.place(relx= 0.57, rely= 0.28, relwidth= 0.13)
+
+         ### Criação da label e entrada do codigo
+        self.lb_dataVenda = Label(self.aba1, text= "Data da Venda", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
+        self.lb_dataVenda.place(relx= 0.73, rely= 0.22)
+
+        self.dataVenda_entry = Entry(self.aba1)
+        self.dataVenda_entry.place(relx= 0.73, rely= 0.28, relwidth= 0.15)
+
+        self.canvas_bt = Canvas(self.aba1, bd= 0, bg='#1e3743', highlightbackground= 'gray', highlightthickness= 4)
+        self.canvas_bt.place(relx= 0.35, rely= 0.37, relwidth= 0.32, relheight= 0.09)
+
+        ### Criação do botão novo
+        self.bt_novo = Button(self.aba1, text="Novo", bd=3, bg= '#4682B4', fg= 'white', 
+                                font= ('verdana', 8, 'bold'), command= self.add_item)
+        self.bt_novo.place(relx= 0.36, rely= 0.38, relwidth=0.1, relheight= 0.07)
+        ### Criação do botão alterar
+        self.bt_alterar = Button(self.aba1, text="Alterar", bd=3, bg= '#4682B4', fg= 'white', 
+                                font= ('verdana', 8, 'bold'), command= self.altera_item)
+        self.bt_alterar.place(relx= 0.46, rely= 0.38, relwidth=0.1, relheight= 0.07)
+
+        ### Criação do botão apagar
+        self.bt_apagar = Button(self.aba1, text="Apagar", bd=3, bg= '#4682B4', fg= 'white', 
+                                font= ('verdana', 8, 'bold'), command= self.deleta_item)
+        self.bt_apagar.place(relx= 0.56, rely= 0.38, relwidth=0.1, relheight= 0.07)
+
+    def lista_venda(self):
+        self.style = ttk.Style() 
+        
+        self.style.configure("Treeview.Heading", font=("Helvetica", 10, "bold"))
+
+        self.listaVend = ttk.Treeview(self.aba1, height= 3, columns= ("col1", "col2", "col3", "col4"), style="Treeview")
+
+        self.listaVend.heading('#0', text="")
+        self.listaVend.heading('#1', text="Codigo Produto") 
+        self.listaVend.heading('#2', text="CPF do Cliente") 
+        self.listaVend.heading('#3', text="Quantidade Vendida")
+        self.listaVend.heading('#4', text="Data da Venda")
+
+        self.listaVend.column("#0", width=0, anchor= "center")
+        self.listaVend.column("#1", width=65, anchor= "center")
+        self.listaVend.column("#2", width=85, anchor= "center")
+        self.listaVend.column("#3", width=55, anchor= "center")
+        self.listaVend.column("#4", width=55, anchor= "center")
+
+        self.listaVend.place(relx= 0.01, rely= 0.5, relwidth= 0.95, relheight= 0.49)
+
+        self.scroolLista = Scrollbar(self.aba1, orient='vertical')
+        self.listaVend.configure(yscroll=self.scroolLista.set)
+        self.scroolLista.place(relx=0.95, rely=0.5, relwidth=0.045, relheight=0.49)
+
+        self.listaVend.bind("<Double-1>", self.OnDoubleClick)
