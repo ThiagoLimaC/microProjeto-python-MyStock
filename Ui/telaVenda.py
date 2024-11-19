@@ -49,7 +49,7 @@ class Funcs():
     
     def select_lista(self):
         self.listaVend.delete(*self.listaVend.get_children())
-        v = Venda('','','','','')
+        v = Venda('','','','')
         v.strConnect()
         lista = v.todos()
 
@@ -63,7 +63,7 @@ class Funcs():
         self.listaVend.selection()
 
         for n in self.listaVend.selection():
-            col1, col2, col3, col4, col5 = self.listlistaVendaEst.item(n, 'values')
+            col1, col2, col3, col4 = self.listaVend.item(n, 'values')
             self.codigo_entry.insert(END, col1)
             self.cpf_entry.insert(END, col2)
             self.quantidade_entry.insert(END, col3)
@@ -95,12 +95,12 @@ class Funcs():
         self.nomeProduto_entry.insert(END, '%')
         nomeProduto = self.nomeProduto_entry.get()
 
-        e = Produto('', '', '', '')
-        e.strConnect()
-        listaP = e.busca(nomeProduto)
+        p = Produto('', '', '', '')
+        p.strConnect()
+        listaP = p.busca(nomeProduto)
 
-        for item in listaP:
-            self.codigo_entry.insert(0, item.codigo)
+        for prod in listaP:
+            self.codigo_entry.insert(0, prod.codigo)
 
         self.nomeProduto_entry.delete(len(self.nomeProduto_entry.get())-1, END)
 
@@ -109,12 +109,22 @@ class Funcs():
 
         c = Cliente('', '', '', '')
         c.strConnect()
-        listaC = e.busca(nomeCliente)
+        listaC = c.busca(nomeCliente)
 
-        for item in listaC:
-            self.cpf_entry.insert(0, item.cpf)
+        for cli in listaC:
+            self.cpf_entry.insert(0, cli.cpf)
 
         self.nomeCliente_entry.delete(len(self.nomeCliente_entry.get())-1, END)
+
+    def estoque_baixo(self):
+
+        prodE = Estoque('','','','','')
+        prods = prodE.busca()
+
+
+        if (self.quantidade_entry.get() <= self.quantMin_entry.get()):
+            msg = "Quantidade de produto menor ou igual ao mínimo em estoque"
+            messagebox.showinfo("Alerta de Estoque Baixo !!!", msg)
 
 class telaVenda(Funcs):
 
@@ -153,55 +163,55 @@ class telaVenda(Funcs):
         self.nomeProduto_entry.place(relx= 0.05, rely= 0.11, relwidth= 0.45)
 
         self.lb_nomeCliente = Label(self.aba1, text= "Nome do Cliente", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
-        self.lb_nomeCliente.place(relx= 0.05, rely= 0.1)
+        self.lb_nomeCliente.place(relx= 0.05, rely= 0.17)
 
         self.nomeCliente_entry = Entry(self.aba1)
-        self.nomeCliente_entry.place(relx= 0.05, rely= 0.16, relwidth= 0.45)
+        self.nomeCliente_entry.place(relx= 0.05, rely= 0.22, relwidth= 0.45)
 
         ### Criação da label e entrada do codigo
         self.lb_codigo = Label(self.aba1, text= "Codigo do Produto", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
-        self.lb_codigo.place(relx= 0.05, rely= 0.22)
+        self.lb_codigo.place(relx= 0.05, rely= 0.29)
 
         self.codigo_entry = Entry(self.aba1)
-        self.codigo_entry.place(relx= 0.05, rely= 0.28, relwidth= 0.19)
+        self.codigo_entry.place(relx= 0.05, rely= 0.35, relwidth= 0.19)
 
         ### Criação da label e entrada do codigo
         self.lb_cpf = Label(self.aba1, text= "CPF do Cliente", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
-        self.lb_cpf.place(relx= 0.3, rely= 0.22)
+        self.lb_cpf.place(relx= 0.3, rely= 0.29)
 
         self.cpf_entry = Entry(self.aba1)
-        self.cpf_entry.place(relx= 0.3, rely= 0.28, relwidth= 0.23)
+        self.cpf_entry.place(relx= 0.3, rely= 0.35, relwidth= 0.23)
 
         ### Criação da label e entrada do codigo
-        self.lb_quantidade = Label(self.aba1, text= "Quantidade Vendida", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
-        self.lb_quantidade.place(relx= 0.57, rely= 0.22)
+        self.lb_quantidade = Label(self.aba1, text= "Quantidade", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
+        self.lb_quantidade.place(relx= 0.57, rely= 0.29)
 
         self.quantidade_entry = Entry(self.aba1)
-        self.quantidade_entry.place(relx= 0.57, rely= 0.28, relwidth= 0.13)
+        self.quantidade_entry.place(relx= 0.57, rely= 0.35, relwidth= 0.13)
 
          ### Criação da label e entrada do codigo
         self.lb_dataVenda = Label(self.aba1, text= "Data da Venda", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
-        self.lb_dataVenda.place(relx= 0.73, rely= 0.22)
+        self.lb_dataVenda.place(relx= 0.73, rely= 0.29)
 
         self.dataVenda_entry = Entry(self.aba1)
-        self.dataVenda_entry.place(relx= 0.73, rely= 0.28, relwidth= 0.15)
+        self.dataVenda_entry.place(relx= 0.73, rely= 0.35, relwidth= 0.15)
 
         self.canvas_bt = Canvas(self.aba1, bd= 0, bg='#1e3743', highlightbackground= 'gray', highlightthickness= 4)
-        self.canvas_bt.place(relx= 0.35, rely= 0.37, relwidth= 0.32, relheight= 0.09)
+        self.canvas_bt.place(relx= 0.35, rely= 0.43, relwidth= 0.32, relheight= 0.09)
 
         ### Criação do botão novo
         self.bt_novo = Button(self.aba1, text="Novo", bd=3, bg= '#4682B4', fg= 'white', 
                                 font= ('verdana', 8, 'bold'), command= self.add_item)
-        self.bt_novo.place(relx= 0.36, rely= 0.38, relwidth=0.1, relheight= 0.07)
+        self.bt_novo.place(relx= 0.36, rely= 0.44, relwidth=0.1, relheight= 0.07)
         ### Criação do botão alterar
         self.bt_alterar = Button(self.aba1, text="Alterar", bd=3, bg= '#4682B4', fg= 'white', 
                                 font= ('verdana', 8, 'bold'), command= self.altera_item)
-        self.bt_alterar.place(relx= 0.46, rely= 0.38, relwidth=0.1, relheight= 0.07)
+        self.bt_alterar.place(relx= 0.46, rely= 0.44, relwidth=0.1, relheight= 0.07)
 
         ### Criação do botão apagar
         self.bt_apagar = Button(self.aba1, text="Apagar", bd=3, bg= '#4682B4', fg= 'white', 
                                 font= ('verdana', 8, 'bold'), command= self.deleta_item)
-        self.bt_apagar.place(relx= 0.56, rely= 0.38, relwidth=0.1, relheight= 0.07)
+        self.bt_apagar.place(relx= 0.56, rely= 0.44, relwidth=0.1, relheight= 0.07)
 
     def lista_venda(self):
         self.style = ttk.Style() 
@@ -213,7 +223,7 @@ class telaVenda(Funcs):
         self.listaVend.heading('#0', text="")
         self.listaVend.heading('#1', text="Codigo Produto") 
         self.listaVend.heading('#2', text="CPF do Cliente") 
-        self.listaVend.heading('#3', text="Quantidade Vendida")
+        self.listaVend.heading('#3', text="Quantidade")
         self.listaVend.heading('#4', text="Data da Venda")
 
         self.listaVend.column("#0", width=0, anchor= "center")
@@ -222,10 +232,10 @@ class telaVenda(Funcs):
         self.listaVend.column("#3", width=55, anchor= "center")
         self.listaVend.column("#4", width=55, anchor= "center")
 
-        self.listaVend.place(relx= 0.01, rely= 0.5, relwidth= 0.95, relheight= 0.49)
+        self.listaVend.place(relx= 0.01, rely= 0.55, relwidth= 0.95, relheight= 0.44)
 
         self.scroolLista = Scrollbar(self.aba1, orient='vertical')
         self.listaVend.configure(yscroll=self.scroolLista.set)
-        self.scroolLista.place(relx=0.95, rely=0.5, relwidth=0.045, relheight=0.49)
+        self.scroolLista.place(relx=0.95, rely=0.55, relwidth=0.045, relheight=0.44)
 
         self.listaVend.bind("<Double-1>", self.OnDoubleClick)
