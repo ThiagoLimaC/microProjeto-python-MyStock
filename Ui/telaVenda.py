@@ -11,6 +11,7 @@ from business.estoque import Estoque
 from business.cliente import Cliente
 from business.produto import Produto
 from business.venda import Venda
+from ui.telaEstoque import telaEstoque
 
 class Funcs():
 
@@ -40,12 +41,36 @@ class Funcs():
             messagebox.showinfo("Cadastro de venda - Aviso !!!", msg)
         # faz o cadastro do produto caso os campos estejam corretamente preenchidos
         else:
-            novo_item = Venda(self.codigo, self.cpf, self.quantidade, self.dataVenda)
-            novo_item.strConnect()
-            novo_item.salvar(1)
+            self.estoque_baixo()
 
-            self.select_lista()
-            self.limpa_tela()
+            e = Estoque('','','','','')
+            e.strConnect()
+            codigoP = self.codigo_entry.get()
+            prodBusca = e.buscaCodigo(codigoP)
+
+            for prod in prodBusca:
+                quantE = prod.quantidade
+
+            if ((quantE - int(self.quantidade_entry.get())) <= 0):
+                msg = "Quantidade de produto menor ou igual ao mínimo em estoque"
+                msg += "--- Impossível realizar a venda ---"
+                messagebox.showinfo("Alerta de Produto sem Estoque !!!", msg)
+            else:
+                novo_item = Venda(self.codigo, self.cpf, self.quantidade, self.dataVenda)
+                novo_item.strConnect()
+                novo_item.salvar(1)
+
+                pAtualizado = Estoque('','','','','')
+
+                for prod in prodBusca:
+                    prod.quantidade -= int(self.quantidade)
+                    pAtualizado = prod
+                
+                pAtualizado.strConnect()
+                pAtualizado.salvar(2)
+
+                self.select_lista()
+                self.limpa_tela()
     
     def select_lista(self):
         self.listaVend.delete(*self.listaVend.get_children())
@@ -73,7 +98,7 @@ class Funcs():
         
         self.variaveis()
 
-        novo_item = Estoque(self.codigo, self.cpf, self.quantidade, self.dataVenda)
+        novo_item = Venda(self.codigo, self.cpf, self.quantidade, self.dataVenda)
         novo_item.strConnect()
         novo_item.salvar(3)
 
@@ -118,11 +143,16 @@ class Funcs():
 
     def estoque_baixo(self):
 
-        prodE = Estoque('','','','','')
-        prods = prodE.busca()
+        e = Estoque('','','','','')
+        e.strConnect()
+        codigoP = self.codigo_entry.get()
+        prodBusca = e.buscaCodigo(codigoP)
 
-
-        if (self.quantidade_entry.get() <= self.quantMin_entry.get()):
+        for prod in prodBusca:
+            quantE = prod.quantidade
+            quantMinE = prod.quantMin
+        
+        if (quantE - int(self.quantidade_entry.get()) <= quantMinE):
             msg = "Quantidade de produto menor ou igual ao mínimo em estoque"
             messagebox.showinfo("Alerta de Estoque Baixo !!!", msg)
 

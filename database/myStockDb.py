@@ -36,15 +36,17 @@ CREATE TABLE IF NOT EXISTS Cliente (
 
 create_tableVenda_query = '''
 CREATE TABLE IF NOT EXISTS Venda (
-    codigo VARCHAR(7),
-    cpf VARCHAR(7),
+    idVenda INTEGER PRIMARY KEY AUTOINCREMENT,
+    codigo VARCHAR(7) NOT NULL,
+    cpf VARCHAR(7) NOT NULL,
     quantidade INT NOT NULL,
     dataVenda DATE NOT NULL,
-    PRIMARY KEY (codigo, cpf),
     FOREIGN KEY (codigo) REFERENCES Produto(codigo),
     FOREIGN KEY (cpf) REFERENCES Cliente(cpf)
 )
 '''
+
+query = "DROP TABLE Venda"
 
 cursor.execute(create_tableVenda_query)
 

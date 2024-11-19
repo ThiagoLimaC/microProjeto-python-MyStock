@@ -36,7 +36,7 @@ class Base(IBase):
                 primary_key_conditions = ' AND '.join([f"{key}='{getattr(self, key)}'" for key in self.primary_keys])
                 query = f"UPDATE {self.__class__.__name__} SET {col_val_str} WHERE {primary_key_conditions}"
             elif acao == 3:
-                primary_key_value = getattr(self, self.primary_key) 
+                primary_key_conditions = ' AND '.join([f"{key}='{getattr(self, key)}'" for key in self.primary_keys])
                 query = f"DELETE FROM {self.__class__.__name__} WHERE {primary_key_conditions}"
             
             cursor.execute(query)

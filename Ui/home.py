@@ -46,6 +46,7 @@ class Aplication():
         self.tela()
         self.frame_principal()
         self.abasHome()
+        self.abas.bind("<<NotebookTabChanged>>", self.on_tab_selected)
         root.mainloop()
     
     def tela(self):
@@ -61,6 +62,7 @@ class Aplication():
                                         bg="whitesmoke", 
                                         highlightbackground="#708090", highlightthickness=2)
         self.frame_1.place(relx= 0.02,rely= 0.02, relwidth= 0.96, relheight= 0.95)
+
 
     def abasHome(self):
 
@@ -83,8 +85,15 @@ class Aplication():
         self.abas.place(relx= 0, rely= 0, relwidth= 1, relheight= 1)
         
         telaProduto(self.aba1)
-        telaEstoque(self.aba2)
+        self.telaE = telaEstoque(self.aba2)
         telaCliente(self.aba3)
-        telaVenda(self.aba4)
+        self.telaV = telaVenda(self.aba4)
+    
+    def on_tab_selected(self, event): 
+        selected_tab = event.widget.tab('current')['text'] 
+        if selected_tab == 'Venda': 
+            self.telaV.select_lista() # Atualiza a tabela de venda 
+        elif selected_tab == 'Estoque': 
+            self.telaE.select_lista() # Atualiza a tabela de estoque
 
 Aplication()

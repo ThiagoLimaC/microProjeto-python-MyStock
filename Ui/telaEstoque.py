@@ -119,6 +119,7 @@ class telaEstoque(Funcs):
         self.lista_estoque()
         self.select_lista()
 
+    
     def wigets_estoque(self):
 
         self.canvas_bt = Canvas(self.aba1, bd= 0, bg='#1e3743', highlightbackground= 'gray', highlightthickness= 4)
