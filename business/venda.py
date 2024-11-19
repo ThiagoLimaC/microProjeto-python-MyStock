@@ -1,6 +1,7 @@
 from database.base import Base
 from typing import List
 from datetime import date
+import sqlite3
 
 class Venda(Base):
     

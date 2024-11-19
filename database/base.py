@@ -77,5 +77,22 @@ class Base(IBase):
                 obj.__dict__.update(data)
                 lista.append(obj)
             return lista
+        
+    def buscaCodigo(self, codigo: str) -> List[IBase]:
+        lista = []
+        with sqlite3.connect(self.connection_string) as connection:
+            cursor = connection.cursor()
+            query = f"SELECT * FROM {self.__class__.__name__} WHERE codigo = {codigo}"
+            cursor.execute(query)
+            rows = cursor.fetchall()
+
+            colunas = [description[0] for description in cursor.description]
+
+            for row in rows:
+                data = dict(zip(colunas, row))
+                obj = self.__class__.__new__(self.__class__)
+                obj.__dict__.update(data)
+                lista.append(obj)
+            return lista
     
 
