@@ -1,6 +1,12 @@
 import sqlite3
 
+def enable_foreign_keys(conn): 
+    cursor = conn.cursor() 
+    cursor.execute("PRAGMA foreign_keys = ON") 
+    cursor.close()
+
 connection = sqlite3.connect("MyStockDb.sqlite")
+
 
 cursor = connection.cursor()
 
@@ -38,7 +44,7 @@ create_tableVenda_query = '''
 CREATE TABLE IF NOT EXISTS Venda (
     idVenda INTEGER PRIMARY KEY AUTOINCREMENT,
     codigo VARCHAR(7) NOT NULL,
-    cpf VARCHAR(7) NOT NULL,
+    cpf VARCHAR(11) NOT NULL,
     quantidade INT NOT NULL,
     dataVenda DATE NOT NULL,
     FOREIGN KEY (codigo) REFERENCES Produto(codigo),
@@ -46,9 +52,12 @@ CREATE TABLE IF NOT EXISTS Venda (
 )
 '''
 
-query = "DROP TABLE Venda"
+query = "INSERT INTO Venda (codigo, cpf, quantidade, dataVenda) VALUES (159, 189, 8, 19/09/2024)"
+query2 = "SELECT * FROM Venda"
 
-cursor.execute(create_tableVenda_query)
+cursor.execute(query2)
+
+enable_foreign_keys(connection)
 
 connection.commit()
 
