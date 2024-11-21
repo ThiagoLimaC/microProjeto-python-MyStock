@@ -22,12 +22,14 @@ class Funcs():
         self.nomeCliente_entry.delete(0, END)
         self.quantidade_entry.delete(0, END)
         self.dataVenda_entry.delete(0, END)
+        self.valor_entry.delete(0, END)
 
     def variaveis(self):
         self.codigo = self.codigo_entry.get()
         self.cpf = self.cpf_entry.get()
         self.quantidade = self.quantidade_entry.get()
         self.dataVenda = self.dataVenda_entry.get()
+        self.valor = self.valor_entry.get()
 
     def add_item(self):
         
@@ -56,7 +58,7 @@ class Funcs():
                 msg += "--- Impossível realizar a venda ---"
                 messagebox.showinfo("Alerta de Produto sem Estoque !!!", msg)
             else:
-                novo_item = Venda(self.codigo, self.cpf, self.quantidade, self.dataVenda)
+                novo_item = Venda(self.codigo, self.cpf, self.quantidade, self.dataVenda, self.valor)
                 novo_item.strConnect()
                 novo_item.salvar(1)
 
@@ -74,12 +76,12 @@ class Funcs():
     
     def select_lista(self):
         self.listaVend.delete(*self.listaVend.get_children())
-        v = Venda('','','','')
+        v = Venda('','','','', '')
         v.strConnect()
         lista = v.todos()
 
         for item in lista:
-            self.listaVend.insert("", END, values=(item.codigo, item.cpf, item.quantidade, item.dataVenda))
+            self.listaVend.insert("", END, values=(item.codigo, item.cpf, item.quantidade, item.dataVenda, f"R${item.valor:.2f}"))
     
 
     def OnDoubleClick(self, event):
@@ -88,11 +90,12 @@ class Funcs():
         self.listaVend.selection()
 
         for n in self.listaVend.selection():
-            col1, col2, col3, col4 = self.listaVend.item(n, 'values')
+            col1, col2, col3, col4, col5 = self.listaVend.item(n, 'values')
             self.codigo_entry.insert(END, col1)
             self.cpf_entry.insert(END, col2)
             self.quantidade_entry.insert(END, col3)
             self.dataVenda_entry.insert(END, col4)
+            self.valor_entry.insert(END, col5.replace("R$", ""))
     
     def deleta_item(self):
         
@@ -195,23 +198,23 @@ class telaVenda(Funcs):
 
         ### Criação da label e entrada do codigo
         self.lb_quantidade = Label(self.aba1, text= "Quantidade", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
-        self.lb_quantidade.place(relx= 0.22, rely= 0.37)
+        self.lb_quantidade.place(relx= 0.27, rely= 0.37)
 
         self.quantidade_entry = Entry(self.aba1)
-        self.quantidade_entry.place(relx= 0.22, rely= 0.43, relwidth= 0.13)
+        self.quantidade_entry.place(relx= 0.27, rely= 0.43, relwidth= 0.13)
 
          ### Criação da label e entrada do codigo
         self.lb_dataVenda = Label(self.aba1, text= "Data da Venda", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
-        self.lb_dataVenda.place(relx= 0.37, rely= 0.37)
+        self.lb_dataVenda.place(relx= 0.41, rely= 0.37)
 
         self.dataVenda_entry = Entry(self.aba1)
-        self.dataVenda_entry.place(relx= 0.37, rely= 0.43, relwidth= 0.15)
+        self.dataVenda_entry.place(relx= 0.41, rely= 0.43, relwidth= 0.15)
 
         self.lb_Valor = Label(self.aba1, text= "Valor total", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
-        self.lb_Valor.place(relx= 0.54, rely= 0.37)
+        self.lb_Valor.place(relx= 0.58, rely= 0.37)
 
         self.valor_entry = Entry(self.aba1)
-        self.valor_entry.place(relx= 0.54, rely= 0.43, relwidth= 0.15)
+        self.valor_entry.place(relx= 0.58, rely= 0.43, relwidth= 0.15)
 
         self.canvas_bt = Canvas(self.aba1, bd= 0, bg='#1e3743', highlightbackground= 'gray', highlightthickness= 4)
         self.canvas_bt.place(relx= 0.57, rely= 0.23, relwidth= 0.22, relheight= 0.09)
@@ -254,19 +257,21 @@ class telaVenda(Funcs):
         
         self.style.configure("Treeview.Heading", font=("Helvetica", 10, "bold"))
 
-        self.listaVend = ttk.Treeview(self.aba1, height= 3, columns= ("col1", "col2", "col3", "col4"), style="Treeview")
+        self.listaVend = ttk.Treeview(self.aba1, height= 3, columns= ("col1", "col2", "col3", "col4", "col5"), style="Treeview")
 
         self.listaVend.heading('#0', text="")
-        self.listaVend.heading('#1', text="Codigo Produto") 
-        self.listaVend.heading('#2', text="CPF do Cliente") 
+        self.listaVend.heading('#1', text="Codigo")
+        self.listaVend.heading('#2', text="CPF") 
         self.listaVend.heading('#3', text="Quantidade")
         self.listaVend.heading('#4', text="Data da Venda")
+        self.listaVend.heading('#5', text="Valor total")
 
         self.listaVend.column("#0", width=0, anchor= "center")
-        self.listaVend.column("#1", width=65, anchor= "center")
-        self.listaVend.column("#2", width=85, anchor= "center")
-        self.listaVend.column("#3", width=55, anchor= "center")
-        self.listaVend.column("#4", width=55, anchor= "center")
+        self.listaVend.column("#1", width=55, anchor= "center")
+        self.listaVend.column("#2", width=75, anchor= "center")
+        self.listaVend.column("#3", width=65, anchor= "center")
+        self.listaVend.column("#4", width=65, anchor= "center")
+        self.listaVend.column("#5", width=65, anchor= "center")
 
         self.listaVend.place(relx= 0.01, rely= 0.65, relwidth= 0.95, relheight= 0.44)
 
