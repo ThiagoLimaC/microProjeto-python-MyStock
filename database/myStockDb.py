@@ -107,6 +107,9 @@ INSERT INTO Venda (codigo, cpf, quantidade, dataVenda, valor) VALUES
 ('P010', '01234567890', 2, '2024-11-29', 900.00);   -- HD Externo Seagate, 2 unidades, valor total = 2 * 450.00
 '''
 
+query9 = '''
+
+'''
 
 cursor.execute(query8)
 enable_foreign_keys(connection)

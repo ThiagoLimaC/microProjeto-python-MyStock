@@ -82,7 +82,7 @@ class Base(IBase):
         lista = []
         with sqlite3.connect(self.connection_string) as connection:
             cursor = connection.cursor()
-            query = f"SELECT * FROM {self.__class__.__name__} WHERE codigo = {codigo}"
+            query = f"SELECT * FROM {self.__class__.__name__} WHERE codigo = '{codigo}'"
             cursor.execute(query)
             rows = cursor.fetchall()
 
