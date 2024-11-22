@@ -24,6 +24,9 @@ class Funcs():
         self.dataVenda_entry.delete(0, END)
         self.valor_entry.delete(0, END)
 
+        self.quantidade_entry.config(state='normal')
+        self.quantidade_entry.delete(0, END)
+
     def variaveis(self):
         self.codigo = self.codigo_entry.get()
         self.cpf = self.cpf_entry.get()
@@ -96,27 +99,33 @@ class Funcs():
             self.quantidade_entry.insert(END, col3)
             self.dataVenda_entry.insert(END, col4)
             self.valor_entry.insert(END, col5.replace("R$", ""))
+        
+        self.quantidade_entry.config(state='disabled')
     
     def deleta_item(self):
         
         self.variaveis()
 
-        novo_item = Venda(self.codigo, self.cpf, self.quantidade, self.dataVenda)
+        novo_item = Venda(self.codigo, self.cpf, self.quantidade, self.dataVenda, self.valor)
         novo_item.strConnect()
         novo_item.salvar(3)
 
         self.select_lista()
         self.limpa_tela()
+        self.quantidade_entry.config(state='normal')
+        self.quantidade_entry.delete(0, END)
     
     def altera_item(self):
         self.variaveis()
 
-        novo_item = Venda(self.codigo, self.cpf, self.quantidade, self.dataVenda)
+        novo_item = Venda(self.codigo, self.cpf, self.quantidade, self.dataVenda, self.valor)
         novo_item.strConnect()
         novo_item.salvar(2)
 
         self.select_lista()
         self.limpa_tela()
+        self.quantidade_entry.config(state='normal')
+        self.quantidade_entry.delete(0, END)
 
     def busca_item(self):
         
@@ -198,23 +207,23 @@ class telaVenda(Funcs):
 
         ### Criação da label e entrada do codigo
         self.lb_quantidade = Label(self.aba1, text= "Quantidade", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
-        self.lb_quantidade.place(relx= 0.27, rely= 0.37)
+        self.lb_quantidade.place(relx= 0.05, rely= 0.37)
 
         self.quantidade_entry = Entry(self.aba1)
-        self.quantidade_entry.place(relx= 0.27, rely= 0.43, relwidth= 0.13)
+        self.quantidade_entry.place(relx= 0.05, rely= 0.43, relwidth= 0.13)
 
          ### Criação da label e entrada do codigo
         self.lb_dataVenda = Label(self.aba1, text= "Data da Venda", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
-        self.lb_dataVenda.place(relx= 0.41, rely= 0.37)
+        self.lb_dataVenda.place(relx= 0.19, rely= 0.37)
 
         self.dataVenda_entry = Entry(self.aba1)
-        self.dataVenda_entry.place(relx= 0.41, rely= 0.43, relwidth= 0.15)
+        self.dataVenda_entry.place(relx= 0.19, rely= 0.43, relwidth= 0.15)
 
         self.lb_Valor = Label(self.aba1, text= "Valor total", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))
-        self.lb_Valor.place(relx= 0.58, rely= 0.37)
+        self.lb_Valor.place(relx= 0.36, rely= 0.37)
 
         self.valor_entry = Entry(self.aba1)
-        self.valor_entry.place(relx= 0.58, rely= 0.43, relwidth= 0.15)
+        self.valor_entry.place(relx= 0.36, rely= 0.43, relwidth= 0.15)
 
         self.canvas_bt = Canvas(self.aba1, bd= 0, bg='#1e3743', highlightbackground= 'gray', highlightthickness= 4)
         self.canvas_bt.place(relx= 0.57, rely= 0.23, relwidth= 0.22, relheight= 0.09)
@@ -236,21 +245,21 @@ class telaVenda(Funcs):
         self.balao_buscar.bind_widget(self.bt_buscar, balloonmsg= "Digite no campo nome do produto e cliente que deseja pesquisar o código e cpf")
 
         self.canvas_bt = Canvas(self.aba1, bd= 0, bg='#1e3743', highlightbackground= 'gray', highlightthickness= 4)
-        self.canvas_bt.place(relx= 0.35, rely= 0.53, relwidth= 0.32, relheight= 0.09)
+        self.canvas_bt.place(relx= 0.57, rely= 0.4, relwidth= 0.32, relheight= 0.09)
 
         ### Criação do botão novo
         self.bt_novo = Button(self.aba1, text="Novo", bd=3, bg= '#4682B4', fg= 'white', 
                                 font= ('verdana', 8, 'bold'), command= self.add_item)
-        self.bt_novo.place(relx= 0.36, rely= 0.54, relwidth=0.1, relheight= 0.07)
+        self.bt_novo.place(relx= 0.58, rely= 0.41, relwidth=0.1, relheight= 0.07)
         ### Criação do botão alterar
         self.bt_alterar = Button(self.aba1, text="Alterar", bd=3, bg= '#4682B4', fg= 'white', 
                                 font= ('verdana', 8, 'bold'), command= self.altera_item)
-        self.bt_alterar.place(relx= 0.46, rely= 0.54, relwidth=0.1, relheight= 0.07)
+        self.bt_alterar.place(relx= 0.68, rely= 0.41, relwidth=0.1, relheight= 0.07)
 
         ### Criação do botão apagar
         self.bt_apagar = Button(self.aba1, text="Apagar", bd=3, bg= '#4682B4', fg= 'white', 
                                 font= ('verdana', 8, 'bold'), command= self.deleta_item)
-        self.bt_apagar.place(relx= 0.56, rely= 0.54, relwidth=0.1, relheight= 0.07)
+        self.bt_apagar.place(relx= 0.78, rely= 0.41, relwidth=0.1, relheight= 0.07)
 
     def lista_venda(self):
         self.style = ttk.Style() 
@@ -273,10 +282,10 @@ class telaVenda(Funcs):
         self.listaVend.column("#4", width=65, anchor= "center")
         self.listaVend.column("#5", width=65, anchor= "center")
 
-        self.listaVend.place(relx= 0.01, rely= 0.65, relwidth= 0.95, relheight= 0.44)
+        self.listaVend.place(relx= 0.01, rely= 0.55, relwidth= 0.95, relheight= 0.44)
 
         self.scroolLista = Scrollbar(self.aba1, orient='vertical')
         self.listaVend.configure(yscroll=self.scroolLista.set)
-        self.scroolLista.place(relx=0.95, rely=0.65, relwidth=0.045, relheight=0.44)
+        self.scroolLista.place(relx=0.95, rely=0.55, relwidth=0.045, relheight=0.44)
 
         self.listaVend.bind("<Double-1>", self.OnDoubleClick)

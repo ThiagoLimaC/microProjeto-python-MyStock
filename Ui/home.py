@@ -52,7 +52,7 @@ class Aplication():
     def tela(self):
         self.root.title("MyStock - Home")
         self.root.configure(background= '#4682B4')
-        self.root.geometry("700x500")
+        self.root.geometry("700x600")
         self.root.resizable(True, True)
         self.root.maxsize(width= 900, height=700)
         self.root.minsize(width= 500, height= 400)

@@ -120,34 +120,34 @@ class telaCliente(Funcs):
     def widgets_cliente(self):
         # cria um fundo 3d para os botões
         self.canvas_bt = Canvas(self.aba1, bd= 0, bg='#1e3743', highlightbackground= 'gray', highlightthickness= 4)
-        self.canvas_bt.place(relx= 0.30, rely= 0.08, relwidth= 0.22, relheight= 0.11)
+        self.canvas_bt.place(relx= 0.30, rely= 0.08, relwidth= 0.22, relheight= 0.09)
         
         ### Criação do botão limpar
         self.bt_limpar = Button(self.aba1, text="Limpar", bd=3, bg= '#4682B4', fg= 'white',
                                 activebackground='#108ecb', activeforeground="white",
                                 font= ('verdana', 8, 'bold'), command= self.limpa_tela)
-        self.bt_limpar.place(relx= 0.31, rely= 0.1, relwidth=0.1, relheight= 0.07)
+        self.bt_limpar.place(relx= 0.31, rely= 0.09, relwidth=0.1, relheight= 0.07)
 
         ### Criação do botão buscar
         self.bt_buscar = Button(self.aba1, text="Buscar", bd=3, bg= '#4682B4', fg= 'white',
                                 activebackground='#108ecb', activeforeground="white", 
                                 font= ('verdana', 8, 'bold'), command= self.busca_item)
-        self.bt_buscar.place(relx= 0.41, rely= 0.1, relwidth=0.1, relheight= 0.07)
+        self.bt_buscar.place(relx= 0.41, rely= 0.09, relwidth=0.1, relheight= 0.07)
 
         self.balao_buscar = tix.Balloon(self.aba1)
         self.balao_buscar.bind_widget(self.bt_buscar, balloonmsg= "Digite no campo nome o cliente que deseja pesquisar")
 
         self.canvas_bt = Canvas(self.aba1, bd= 0, bg='#1e3743', highlightbackground= 'gray', highlightthickness= 4)
-        self.canvas_bt.place(relx= 0.59, rely= 0.08, relwidth= 0.32, relheight= 0.11)
+        self.canvas_bt.place(relx= 0.59, rely= 0.08, relwidth= 0.32, relheight= 0.09)
 
         ### Criação do botão novo
         self.bt_novo = Button(self.aba1, text="Novo", bd=3, bg= '#4682B4', fg= 'white', 
                                 font= ('verdana', 8, 'bold'), command= self.add_item)
-        self.bt_novo.place(relx= 0.6, rely= 0.1, relwidth=0.1, relheight= 0.07)
+        self.bt_novo.place(relx= 0.6, rely= 0.09, relwidth=0.1, relheight= 0.07)
         ### Criação do botão alterar
         self.bt_alterar = Button(self.aba1, text="Alterar", bd=3, bg= '#4682B4', fg= 'white', 
                                 font= ('verdana', 8, 'bold'), command= self.altera_item)
-        self.bt_alterar.place(relx= 0.7, rely= 0.1, relwidth=0.1, relheight= 0.07)
+        self.bt_alterar.place(relx= 0.7, rely= 0.09, relwidth=0.1, relheight= 0.07)
 
         self.bt_alterar = tix.Balloon(self.aba1)
         self.bt_alterar.bind_widget(self.bt_alterar, balloonmsg= "Dê dois cliques no item da lista para trazer as informações do cliente")
@@ -155,7 +155,7 @@ class telaCliente(Funcs):
         ### Criação do botão apagar
         self.bt_apagar = Button(self.aba1, text="Apagar", bd=3, bg= '#4682B4', fg= 'white', 
                                 font= ('verdana', 8, 'bold'), command= self.deleta_item)
-        self.bt_apagar.place(relx= 0.8, rely= 0.1, relwidth=0.1, relheight= 0.07)
+        self.bt_apagar.place(relx= 0.8, rely= 0.09, relwidth=0.1, relheight= 0.07)
 
         ### Criação da label e entrada do codigo
         self.lb_cpf = Label(self.aba1, text= "CPF", bg= None, fg= '#107db2', font=("Helvetica", 10, "bold"))

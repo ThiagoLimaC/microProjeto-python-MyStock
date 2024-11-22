@@ -107,7 +107,7 @@ class Funcs():
         self.nome_entry.delete(len(self.nome_entry.get())-1, END)
 
     def estoque_baixo(self):
-        if (self.quantidade_entry.get() <= self.quantMin_entry.get()):
+        if (int(self.quantidade_entry.get()) <= int(self.quantMin_entry.get())):
             msg = "Quantidade de produto menor ou igual ao mínimo em estoque"
             messagebox.showinfo("Alerta de Estoque Baixo !!!", msg)
 
