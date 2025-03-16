@@ -89,7 +89,7 @@ def test_exclusaoEstoque():
 
 # Testes de Unidade para o módulo de venda
 
-@pytest.mark.skip    
+@pytest.mark.editVendaEstoque    
 def test_atualizaVendaEstoque():
     produto = Produto("P0025", "Borracha", 5.50, "borracha preta")
     produto.strConnect()
