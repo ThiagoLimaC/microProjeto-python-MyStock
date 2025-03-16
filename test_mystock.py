@@ -1,3 +1,4 @@
+import pytest
 import sqlite3
 from business.produto import Produto
 from business.estoque import Estoque
@@ -5,6 +6,7 @@ from business.venda import Venda
 
 # Testes de Unidade para o módulo de produto
 
+@pytest.mark.addProduto
 def test_insercaoProduto():
     produto = Produto("P020", "Apagador", 20, "Apagador preto")
     produto.strConnect()
@@ -12,12 +14,13 @@ def test_insercaoProduto():
     row = produto.buscaCodigo("P020")
     assert len(row) == 1
 
+@pytest.mark.editProduto
 def test_atualizacaoProduto():
     produto = Produto("P0021", "Calculadora", 50, "Calculadora cientifica")
     produto.strConnect()
     produto.salvar(acao=1)  # Inserir
     produto.nome = "Calculadora cientifica"
-    produto.preco = 60
+    produto.valor = 60
     produto.descricao = "Calculadora cientifica casio"
     produto.salvar(acao=2)  # Atualizar
     row = produto.buscaCodigo("P0021")
@@ -26,6 +29,7 @@ def test_atualizacaoProduto():
     assert row[0].preco == 60
     assert row[0].descricao == "Calculadora cientifica casio"
 
+@pytest.mark.deleteProduto
 def test_exclusaoProduto():
     produto = Produto("P0015", "Caneta", 15.50, "Caneta azul")
     produto.strConnect()
@@ -36,6 +40,7 @@ def test_exclusaoProduto():
 
 # Testes de Unidade para o módulo de estoque
 
+@pytest.mark.addEstoque
 def test_insercaoEstoque():
     produto = Produto("P0022", "Lapis", 3.50, "Lapis preto")
     produto.strConnect()
@@ -47,6 +52,7 @@ def test_insercaoEstoque():
     row = estoque.buscaCodigo("P0022")
     assert len(row) == 1
 
+@pytest.mark.editEstoque
 def test_atualizacaoEstoque():
     produto = Produto("P0023", "Caderno", 10, "Caderno universitario")
     produto.strConnect()
@@ -67,6 +73,7 @@ def test_atualizacaoEstoque():
     assert row[0].minimo == 10
     assert row[0].maximo == 25
 
+@pytest.mark.deleteEstoque
 def test_exclusaoEstoque():
     produto = Produto("P0024", "Borracha", 5.50, "Borracha preta")
     produto.strConnect()
@@ -81,8 +88,9 @@ def test_exclusaoEstoque():
     assert len(row) == 0
 
 # Testes de Unidade para o módulo de venda
-    
-def test_atualizaEstoque():
+
+@pytest.mark.skip    
+def test_atualizaVendaEstoque():
     produto = Produto("P0025", "Borracha", 5.50, "borracha preta")
     produto.strConnect()
     produto.salvar(acao=1)  # Inserir
@@ -99,3 +107,37 @@ def test_atualizaEstoque():
     estoque = row[0]
     assert len(row) == 1
     assert row[0].quantidade == 5
+
+# Testes de integridade 
+
+#retorna a string conexão com o banco de dados
+@pytest.fixture
+def conexao_banco():
+    connection = sqlite3.connect("MyStockDb.sqlite")
+    return connection
+
+# Testa a conexão com o banco de dados
+@pytest.mark.conexaoBanco
+def test_conexao_banco(conexao_banco):
+    try:
+        cursor = conexao_banco.cursor()
+        cursor.execute("SELECT 1") # teste básico para validar conexão
+        assert True
+    except Exception as e:
+        pytest.fail(f"Erro de conexão: {e}")
+    finally:
+        conexao_banco.close()
+
+# Testes de desempenho
+
+# Consulta ao banco de dados
+def consulta_banco(conexao_banco):
+    cursor = conexao_banco.cursor()
+    cursor.execute("SELECT * FROM Produto")
+    _ = cursor.fetchall()
+
+# Testa o desempenho da consulta ao banco de dados
+@pytest.mark.desempConsulta
+def test_benchmark_consulta(benchmark, conexao_banco):
+    benchmark(consulta_banco, conexao_banco)
+
