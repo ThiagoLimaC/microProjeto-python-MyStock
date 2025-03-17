@@ -26,7 +26,7 @@ def test_atualizacaoProduto():
     row = produto.buscaCodigo("P0021")
     assert len(row) == 1
     assert row[0].nome == "Calculadora cientifica"
-    assert row[0].preco == 60
+    assert row[0].valor == 60
     assert row[0].descricao == "Calculadora cientifica casio"
 
 @pytest.mark.deleteProduto
@@ -63,15 +63,15 @@ def test_atualizacaoEstoque():
     estoque.salvar(acao=1)  # Inserir
 
     estoque.quantidade = 15
-    estoque.minimo = 10
-    estoque.maximo = 25
+    estoque.quantMax = 10
+    estoque.quantMin = 25
     estoque.salvar(acao=2)  # Atualizar
     
     row = estoque.buscaCodigo("P0023")
     assert len(row) == 1
     assert row[0].quantidade == 15
-    assert row[0].minimo == 10
-    assert row[0].maximo == 25
+    assert row[0].quantMax == 10
+    assert row[0].quantMin == 25
 
 @pytest.mark.deleteEstoque
 def test_exclusaoEstoque():
