@@ -137,6 +137,8 @@ def consulta_banco(conexao_banco):
     _ = cursor.fetchall()
 
 # Testa o desempenho da consulta ao banco de dados
+# para executar esse teste é preciso instalar a biblioteca fixture no cmd
+# pip install pytest-benchmark
 @pytest.mark.desempConsulta
 def test_benchmark_consulta(benchmark, conexao_banco):
     benchmark(consulta_banco, conexao_banco)
